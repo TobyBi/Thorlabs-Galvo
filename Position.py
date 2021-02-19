@@ -195,7 +195,7 @@ class Point():
     def _replace_any_bit(val: int, pos: int, new_bit: int) -> int:
         """Replace bit at position (starting at 0) with new bit.
 
-        Helper function for Position._binary_coarsen
+        Helper function for Point._binary_coarsen
 
         Parameters
         ----------
@@ -213,7 +213,7 @@ class Point():
 
         Examples
         --------
-        >>> Position._replace_any_bit(10, 2, 0)
+        >>> Point._replace_any_bit(10, 2, 0)
         8
         """
         part1 = val & (~1 << pos)       # replaces bit at pos with 0
@@ -239,7 +239,7 @@ class Point():
 
         Examples
         --------
-        >>> Position._binary_coarsen(192830999, 4)
+        >>> Point._binary_coarsen(192830999, 4)
         192831000
         """
         if coarsen == 4:
