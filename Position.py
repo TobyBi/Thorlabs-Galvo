@@ -74,6 +74,16 @@ class Point():
             Axis/coordinate has to be either "x" or "z".
             Must have at least either an input position or voltage.
 
+        Examples
+        --------
+        >>> p = Point("x", pos=1400)
+        >>> print(p.pos)
+        1399.9999999999998
+        >>> print(p.bit)
+        58120
+        >>> print(p.voltage)
+        4.434114793856104
+
         Notes
         -----
         Implementation of a Point in only a single dimension because Points in 
@@ -92,20 +102,20 @@ class Point():
         if pos != None:
             self._pos = self._position_limits(pos)
             # converting position to voltage
-            self._voltage = self.pos_to_volt(self._pos)
+            self._voltage = self.pos_to_volt(self._axis, self._pos)
         elif voltage != None:
             self._voltage = self._voltage_limits(voltage)
             # converting voltage to position
-            self._pos = self.volt_to_pos(self._voltage)
+            self._pos = self.volt_to_pos(self._axis, self._voltage)
 
-    def __add__(self, other_point: Point):
+    def __add__(self, other_point):
         """Adds two Points, position and voltage, from the same axis."""
         if self._axis != other_point._axis:
             raise ValueError("Adding two points in different axes.")
         new_pos = self.pos + other_point.pos
         return Point(self._axis, pos=new_pos)
 
-    def __sub__(self, other_point: Point):
+    def __sub__(self, other_point):
         """Substracts two Points, position and voltage, from the same axis."""
         if self._axis != other_point._axis:
             raise ValueError("Subtracting two points from different axes.")
@@ -141,7 +151,7 @@ class Point():
         # closest bit from voltage in 12bit levels, upshifted to 16bit
         closest_bit = abs(VOLTAGE_LEVELS - self.voltage).argmin() << (DAC_SET_BITS - DAC_BITS)
         # coarsening by 4 bits, and setting to the middle step
-        middle_bit = self.binary_coarsen(closest_bit, DAC_SET_BITS - DAC_BITS)
+        middle_bit = self._binary_coarsen(closest_bit, DAC_SET_BITS - DAC_BITS)
         return middle_bit
 
     @staticmethod
@@ -175,17 +185,17 @@ class Point():
 
     def _position_limits(self, pos: float) -> float:
         """Return positions within allowed DAC voltage range."""
-        set_voltage = pos_to_volt(pos)
-        set_voltage = self.voltage_limits(self._axis, set_voltage)
+        set_voltage = self.pos_to_volt(self._axis, pos)
+        set_voltage = self._voltage_limits(set_voltage)
 
         set_pos = self.volt_to_pos(self._axis, set_voltage)
         return set_pos
 
     @staticmethod
-    def replace_any_bit(val: int, pos: int, new_bit: int) -> int:
+    def _replace_any_bit(val: int, pos: int, new_bit: int) -> int:
         """Replace bit at position (starting at 0) with new bit.
 
-        Helper function to Position.binary_coarsen
+        Helper function for Position._binary_coarsen
 
         Parameters
         ----------
@@ -203,7 +213,7 @@ class Point():
 
         Examples
         --------
-        >>> Position.replace_any_bit(10, 2, 0)
+        >>> Position._replace_any_bit(10, 2, 0)
         8
         """
         part1 = val & (~1 << pos)       # replaces bit at pos with 0
@@ -212,7 +222,7 @@ class Point():
         return replaced
 
     @staticmethod
-    def binary_coarsen(val: int, coarsen: int) -> int:
+    def _binary_coarsen(val: int, coarsen: int) -> int:
         """Coarsen binary value by any integer amount and set to middle bit.
 
         Parameters
@@ -229,7 +239,7 @@ class Point():
 
         Examples
         --------
-        >>> Position.binary_coarsen(192830999, 4)
+        >>> Position._binary_coarsen(192830999, 4)
         192831000
         """
         if coarsen == 4:
@@ -240,32 +250,8 @@ class Point():
             for k in range(coarsen):
                 if k < (coarsen - 1):
                     # replace every LSB from coarsen amount by 0
-                    coarsened = self.replace_any_bit(val, k, 0)  
+                    coarsened = self._replace_any_bit(val, k, 0)  
                 else:
                     # replace coarsen amount pos by 1
-                    coarsened = self.replace_any_bit(val, k, 1)
+                    coarsened = self._replace_any_bit(val, k, 1)
         return coarsened
-
-
-if __name__ == "__main__":
-    # testing instantiation 
-    pnt1 = Point("x", 0)
-    print(pnt1.pos, pnt1.voltage, pnt1.bit)
-
-    pnt2 = Point("z", -1000)
-    print(pnt2.pos, pnt2.voltage, pnt2.bit)
-
-    # testing adding different axes
-    try:
-        pnt1 + pnt2
-    except Exception as e:
-        print(e)
-
-    # testing adding
-    pnt3 = Point("x", 1300)
-    pnt4 = pnt1 + pnt3
-    print(pnt4.pos, pnt4.voltage, pnt4.bit)
-
-    # testing adding out of range
-    pnt5 = pnt1 + Point("x", 14000)
-    print(pnt5.pos, pnt5.voltage, pnt5.bit)
