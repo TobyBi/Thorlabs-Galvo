@@ -1,7 +1,5 @@
 import numpy as np
 
-from helpers import binary_coarsen
-
 # Voltage range of the DAC
 DAC_RANGE =         [0, 5]
 # Resolution of DAC voltage range in bits
@@ -143,7 +141,7 @@ class Point():
         # closest bit from voltage in 12bit levels, upshifted to 16bit
         closest_bit = abs(VOLTAGE_LEVELS - self.voltage).argmin() << (DAC_SET_BITS - DAC_BITS)
         # coarsening by 4 bits, and setting to the middle step
-        middle_bit = binary_coarsen(closest_bit, DAC_SET_BITS - DAC_BITS)
+        middle_bit = self.binary_coarsen(closest_bit, DAC_SET_BITS - DAC_BITS)
         return middle_bit
 
     @staticmethod
@@ -182,6 +180,72 @@ class Point():
 
         set_pos = self.volt_to_pos(self._axis, set_voltage)
         return set_pos
+
+    @staticmethod
+    def replace_any_bit(val: int, pos: int, new_bit: int) -> int:
+        """Replace bit at position (starting at 0) with new bit.
+
+        Helper function to Position.binary_coarsen
+
+        Parameters
+        ----------
+        val : int
+            Integer to have bit replaced.
+        pos : int
+            Position to replace starting at 0 from LSB (right).
+        new_bit : int
+            0 or 1.
+
+        Returns
+        -------
+        replaced : int
+            Integer with changed bit.
+
+        Examples
+        --------
+        >>> Position.replace_any_bit(10, 2, 0)
+        8
+        """
+        part1 = val & (~1 << pos)       # replaces bit at pos with 0
+        part2 = new_bit << pos          # shifts new_bit to pos
+        replaced = part1 | part2        # replaces 0 with new_bit at pos
+        return replaced
+
+    @staticmethod
+    def binary_coarsen(val: int, coarsen: int) -> int:
+        """Coarsen binary value by any integer amount and set to middle bit.
+
+        Parameters
+        ----------
+        val : int
+            Integer to coarsen, unsigned.
+        coarsen : int
+            Bit value to coarsen by.
+
+        Returns
+        -------
+        val : int
+            Coarsened value.
+
+        Examples
+        --------
+        >>> Position.binary_coarsen(192830999, 4)
+        192831000
+        """
+        if coarsen == 4:
+            # special case to coarsen by 4 for speediness
+            # 8 is "1000" in binary
+            coarsened = ((val >> 4) << 4) | 8     
+        else:
+            for k in range(coarsen):
+                if k < (coarsen - 1):
+                    # replace every LSB from coarsen amount by 0
+                    coarsened = self.replace_any_bit(val, k, 0)  
+                else:
+                    # replace coarsen amount pos by 1
+                    coarsened = self.replace_any_bit(val, k, 1)
+        return coarsened
+
 
 if __name__ == "__main__":
     # testing instantiation 
