@@ -55,43 +55,44 @@ POSITION_CENTRE_CORRECTION = {
     }
 
 class Point():
+    """
+    A single axis point in space representing beam position directed by Galvo.
+
+    Parameters
+    ----------
+    axis : str
+        Dimension of the point, related to the Galvo axis.
+    pos : float, optional
+        Absolute position of the point in μm, by default None.
+    voltage : float, optional
+        Absolute voltage of the point in Volts, by default None.
+
+    Raises
+    ------
+    ValueError
+        Axis/coordinate has to be either "x" or "z".
+        Must have at least either an input position or voltage.
+
+    Examples
+    --------
+    >>> p = Point("x", pos=1400)
+    >>> print(p.pos)
+    1399.9999999999998
+    >>> print(p.bit)
+    58120
+    >>> print(p.voltage)
+    4.434114793856104
+
+    Notes
+    -----
+    Implementation of a Point in only a single dimension because Points in 
+    one dimension DOES NOT interact with another dimension except when 
+    moving the Galvo mirror diagonally (in two dimensions at once).
+
+    TODO: handle different speeds.
+    """
     def __init__(self, axis: str, pos : float=None, voltage: float=None):
-        """
-        A single axis point in space representing beam position directed by Galvo.
-
-        Parameters
-        ----------
-        axis : str
-            Dimension of the point, related to the Galvo axis.
-        pos : float, optional
-            Absolute position of the point in μm, by default None.
-        voltage : float, optional
-            Absolute voltage of the point in Volts, by default None.
-
-        Raises
-        ------
-        ValueError
-            Axis/coordinate has to be either "x" or "z".
-            Must have at least either an input position or voltage.
-
-        Examples
-        --------
-        >>> p = Point("x", pos=1400)
-        >>> print(p.pos)
-        1399.9999999999998
-        >>> print(p.bit)
-        58120
-        >>> print(p.voltage)
-        4.434114793856104
-
-        Notes
-        -----
-        Implementation of a Point in only a single dimension because Points in 
-        one dimension DOES NOT interact with another dimension except when 
-        moving the Galvo mirror diagonally (in two dimensions at once).
-
-        TODO: handle different speeds.
-        """
+        """Inits a Point object."""
         if axis not in ["x", "z"]:
             raise ValueError("Axis should be 'x' or 'z'.")
         if pos == None and voltage == None:
