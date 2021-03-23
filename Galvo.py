@@ -18,33 +18,34 @@ except ImportError:
 SCALING = [0.5, 0.8, 1]
 
 class GalvoDriver:
+    """
+    Interface to Thorlabs galvo driver controlling a single axis mirror
+
+    Currently only supports use with LabJack.
+
+    Parameters
+    ----------
+    axis : str
+        Axis that the Galvo driver is controlling. Either "x" or "z"
+    dac_name : str
+        DAC output register name for LabJack
+    pos_init : float, optional
+        Initial position to set the mirror in microns
+    open_labjack : bool, optional
+        [description], by default False
+
+    === UNUSED ===
+    V_per_deg : float, optional
+        Input voltage per degree moved. Controlled by the JP7 pin on the board (Fig 3.13 in the manual).
+        The default is 0.5 but other valid options are 1  or 0.8
+    beam_diameter : int or float, optional
+        The input beam diameter in millimetres. The default is 8.
+
+    TODO: add a logger?
+    TODO: limiting inputs
+    """
     def __init__(self, axis, dac_name, pos_init=0, open_labjack=False):
-        """
-        Interface to Thorlabs galvo driver controlling a single axis mirror
-
-        Currently only supports use with LabJack.
-
-        Parameters
-        ----------
-        axis : str
-            Axis that the Galvo driver is controlling. Either "x" or "z"
-        dac_name : str
-            DAC output register name for LabJack
-        pos_init : float, optional
-            Initial position to set the mirror in microns
-        open_labjack : bool, optional
-            [description], by default False
-
-        === UNUSED ===
-        V_per_deg : float, optional
-            Input voltage per degree moved. Controlled by the JP7 pin on the board (Fig 3.13 in the manual).
-            The default is 0.5 but other valid options are 1  or 0.8
-        beam_diameter : int or float, optional
-            The input beam diameter in millimetres. The default is 8.
-
-        TODO: add a logger?
-        TODO: limiting inputs
-        """
+        """Inits a GalvoDriver object."""
         # if V_per_deg not in SCALING:
         #     raise ValueError("{0} is not a valid volts / degree scaling option must be in {1}.".format(
         #         V_per_deg, SCALING))
@@ -163,7 +164,6 @@ class GalvoDriver:
             # until the full stream has occurred, only then is the KeyboardInterrupt signal
             # handled
             # TODO: run laser and this on separate stream to be able to shutdown one immediately
-            # TODO: context handler for lase
             try:
                 actual_V
             except NameError:
@@ -186,6 +186,7 @@ class GalvoDriver:
 
         return actual_point.pos, actual_t
 
+        # if self.open_labjack:
             # try:
             #     # second condition of move.t == 0 is used when pos_init and pos_final are the same
             #     # but speed > 0 resulting in trying to stream when you can't
@@ -288,32 +289,33 @@ class GalvoDriver:
 
 
 class GalvoDrivers:
+    """
+    Combines multiple Thorlabs galvo drivers to simultaneously control them.
+
+    Only supports use with LabJack.
+
+    Parameters
+    ----------
+    axis : iterable of str
+        Multiple axes of Galvo drivers to control simultaneously
+    dac_name : dict
+        Dict of DAC output register names for LabJack for each axis
+    pos_init : dict
+        Dict of initial positions to set the mirror of each axis in microns
+    open_labjack : bool, optional
+        LabJack object if it is connected physically, by default False.
+        Make sure to add Updater and Streamer to LabJack object that have matching
+        input and output registers
+
+    Raises
+    ------
+    KeyError
+        dac_name dict keys doesn't match the input axis
+    KeyError
+        pos_init dict keys doesn't match the input axis
+    """
     def __init__(self, axis, dac_name: dict, pos_init: dict, open_labjack=False):
-        """
-        Combines multiple Thorlabs galvo drivers to simultaneously control them.
-
-        Only supports use with LabJack.
-
-        Parameters
-        ----------
-        axis : iterable of str
-            Multiple axes of Galvo drivers to control simultaneously
-        dac_name : dict
-            Dict of DAC output register names for LabJack for each axis
-        pos_init : dict
-            Dict of initial positions to set the mirror of each axis in microns
-        open_labjack : bool, optional
-            LabJack object if it is connected physically, by default False.
-            Make sure to add Updater and Streamer to LabJack object that have matching
-            input and output registers
-
-        Raises
-        ------
-        KeyError
-            dac_name dict keys doesn't match the input axis
-        KeyError
-            pos_init dict keys doesn't match the input axis
-        """
+        """Inits a GalvoDrivers object."""
         self.axis = axis
 
         for ax in self.axis:
@@ -340,14 +342,7 @@ class GalvoDrivers:
 
     @property
     def pos(self) -> dict:
-        """
-        Get current absolute positions for all stored 1D Galvos in microns
-
-        Returns
-        -------
-        dict
-            key-value as axis-position
-        """
+        """Return absolute positions for all stored 1D galvos in μm."""
         _pos = {}
         for ax in self.axis:
             _pos[ax] = self._galvos[ax].pos
@@ -355,14 +350,7 @@ class GalvoDrivers:
 
     @property
     def rel_pos(self) -> dict:
-        """
-        Get current relative positions for all stored 1D Galvos in microns
-
-        Returns
-        -------
-        dict
-            key-value as axis-position
-        """
+        """Return relative positions for all stored 1D galvos in μm."""
         _rel_pos = {}
         for ax in self.axis:
             _rel_pos[ax] = self._galvos[ax].rel_pos
@@ -370,23 +358,14 @@ class GalvoDrivers:
 
     @property
     def pos_history(self) -> dict:
-        """
-        Get position histories for all stored 1D Galvos
-
-        Returns
-        -------
-        dict
-            key-value as axis-pos_history(list)
-        """
+        """Return absolute position history for all stored 1D galvos."""
         _pos_history = {}
         for ax in self.axis:
             _pos_history[ax] = self._galvos[ax].pos_history
         return _pos_history
 
     def reset_pos(self):
-        """
-        Set the relative positions of all stored 1D Galvos to 0
-        """
+        """Reset the relative positions of all stored 1D galvos to 0 μm."""
         rst_pos = {}
         for ax in self.axis:
             rst_pos[ax] = 0
@@ -395,14 +374,7 @@ class GalvoDrivers:
 
     @property
     def origin(self) -> dict:
-        """
-        Get current origin for all stored 1D Galvos in microns
-
-        Returns
-        -------
-        dict
-            key-value as axis-origin
-        """
+        """Return origin for all stored 1D galvos in μm."""
         _origin = {}
         for ax in self.axis:
             _origin[ax] = (self._galvos[ax].origin)
@@ -410,14 +382,14 @@ class GalvoDrivers:
 
     def set_origin(self, **orig):
         """
-        Set the origin of all stored 1D Galvos given values in microns
+        Set the origin of all stored 1D Galvos in μm.
 
-        Not using setter decorators as using dictionary argument inputs is not aesthetically pleasing
+        Named arguments have the form ``{axis_name: origin}``.
 
         Parameters
         ----------
-        orig : optional
-            argument names are axis names
+        orig : optional, {axis_name: origin}
+            Origin in μm for each galvo axis.
         """
         for ax in self.axis:
             if not orig:
@@ -429,41 +401,38 @@ class GalvoDrivers:
                     print("Axis '{0}' not found in input choices, it remains unchanged")
 
     def reset_origin(self):
-        """
-        Set the origin of all stored 1D Galvos to 0
-        """
+        """Set the origin of all stored 1D galvos to 0 μm."""
         for ax in self.axis:
             self._galvos[ax].set_origin(0)
 
     def go_to(self, speed: float=0, **new_pos) -> tuple:
         """
-        Go to input positions in microns relative to the origin from
-        the current position at input speed in microns/second for all
-        axes.
+        Go to input relative positions in μm input speed in μm/s for all axes.
 
-        Input speed is the same for each axis. For example in 2 axes, if one
+        Input speed is the same for each axis. For example with 2 axes, if one
         axis is moving a larger distance, then the other axis will finish
         before the longer distance is finished.
 
-        If speed > 0 microns/second then labjack streams
+        If speed > 0 μm/s then labjack streams.
 
         Parameters
         ----------
         speed : float, optional
-            Speed for in microns/second, by default 0
-        new_pos : optional
-            New position from origin in microns, the axis labels are given as arguments
+            Speed in μm/s, by default 0 μm/s.
+        new_pos : optional, {axis_name: new_pos}
+            New position from origin in μm, by default no movement for given
+            axis.
 
         Returns
         -------
         tuple
-            First value is a dict, with the actual position of the mirror in each axis
-            Second value is the actual time of movement given by the DAQ
+            1 - a dict, with the actual position of all 1D galvos,
+            2 - the actual time of movement in s given by the DAQ.
 
         Raises
         ------
         KeyboardInterrupt
-            Moving stopped by user
+            Moving stopped by user.
         """
         # use stored 1D galvos to calculate the new absolute position for each axis
         original_pos = self.pos
@@ -474,10 +443,7 @@ class GalvoDrivers:
         move = MoveMultiDim(self.axis, original_pos, new_abs_pos, speed)
 
         if self.open_labjack:
-            try:
-                # this part is the same as a single galvo axis except it assumes that
-                # the Labjack updater and streamer have the same number of registers
-                # as the number of move bits
+            with self.open_labjack:
                 if speed == 0 or move.t == 0:
                     # Updater wants a tuple of values matching the number of write registers
                     move_bits = tuple([mb[-1] for mb in tuple(move.bits.values())])
@@ -490,32 +456,27 @@ class GalvoDrivers:
                     self.open_labjack.streamer.load_data(move_bits, "int")
                     actual_t = self.open_labjack.streamer.start_stream(move.t)
                     actual_V = self.open_labjack.updater.read()
-            except KeyboardInterrupt:
-                # self.open_labjack.streamer.stop_stream() KeyboardInterrupt in Streamer handles this
-                try:
-                    actual_V
-                except NameError:
-                    actual_V = self.open_labjack.updater.read()
 
-                try:
-                    actual_t
-                except NameError:
-                    actual_t = move.t
-
-                # setting the stored 1D galvos to the stopped positions
+            try:
+                actual_V
+            except NameError:
+                # stored galvos already have their positions set to the new position
+                actual_V = self.open_labjack.updater.read()
                 stopped_pos = []
                 for ax in self.axis:
                     self._galvos[ax].voltage = actual_V[self._galvos[ax].dac_name]
                     stopped_pos.append(str(self._galvos[ax].pos))
-                print("Stopping at ({0}) = ({1})um".format(", ".join(self.axis), ", ".join(stopped_pos)))
-                # need to raise KeyboardInterrupt so that calling program above the stack can
-                # also stop other processes
-                raise KeyboardInterrupt("Moving stopped by user!")
             finally:
                 actual_pos = {}
                 for ax in self.axis:
                     actual_pos[ax] = Point(ax, voltage=actual_V[self._galvos[ax].dac_name]).pos
 
+            try:
+                actual_t
+            except NameError:
+                actual_t = move.t
+
+            # TODO: Might need to raise KeyboardInterrupt here?
         else:
             # no connected DAQs
             actual_t = 0
@@ -524,6 +485,58 @@ class GalvoDrivers:
                 actual_pos[ax] = Point(ax, new_pos[ax]).pos
 
         return actual_pos, actual_t
+
+        # if self.open_labjack:
+        #     try:
+        #         # this part is the same as a single galvo axis except it assumes that
+        #         # the Labjack updater and streamer have the same number of registers
+        #         # as the number of move bits
+        #         if speed == 0 or move.t == 0:
+        #             # Updater wants a tuple of values matching the number of write registers
+        #             move_bits = tuple([mb[-1] for mb in tuple(move.bits.values())])
+        #             actual_t = 0
+        #             actual_V = self.open_labjack.updater.update(move_bits)
+        #         else:
+        #             # movement bits for each axis
+        #             move_bits = tuple(move.bits.values())
+        #             self.open_labjack.streamer.stream_setup()
+        #             self.open_labjack.streamer.load_data(move_bits, "int")
+        #             actual_t = self.open_labjack.streamer.start_stream(move.t)
+        #             actual_V = self.open_labjack.updater.read()
+        #     except KeyboardInterrupt:
+        #         # self.open_labjack.streamer.stop_stream() KeyboardInterrupt in Streamer handles this
+        #         try:
+        #             actual_V
+        #         except NameError:
+        #             actual_V = self.open_labjack.updater.read()
+
+        #         try:
+        #             actual_t
+        #         except NameError:
+        #             actual_t = move.t
+
+        #         # setting the stored 1D galvos to the stopped positions
+        #         stopped_pos = []
+        #         for ax in self.axis:
+        #             self._galvos[ax].voltage = actual_V[self._galvos[ax].dac_name]
+        #             stopped_pos.append(str(self._galvos[ax].pos))
+        #         print("Stopping at ({0}) = ({1})um".format(", ".join(self.axis), ", ".join(stopped_pos)))
+        #         # need to raise KeyboardInterrupt so that calling program above the stack can
+        #         # also stop other processes
+        #         raise KeyboardInterrupt("Moving stopped by user!")
+        #     finally:
+        #         actual_pos = {}
+        #         for ax in self.axis:
+        #             actual_pos[ax] = Point(ax, voltage=actual_V[self._galvos[ax].dac_name]).pos
+
+        # else:
+        #     # no connected DAQs
+        #     actual_t = 0
+        #     actual_pos = {}
+        #     for ax in self.axis:
+        #         actual_pos[ax] = Point(ax, new_pos[ax]).pos
+
+        # return actual_pos, actual_t
 
 if __name__ == '__main__':
     driver = GalvoDriver('x', "DAC0", pos_init=0, open_labjack=False)
