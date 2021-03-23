@@ -23,7 +23,7 @@ POSITION_TO_VOLTAGE = {
     "x": {
         "slope": (
             -(DAC_RANGE[1] - DAC_RANGE[0])
-            / CALIBRATION["x"] 
+            / CALIBRATION["x"]
             / POSITION_UNIT_PREFIX),
         "intercept": DAC_RANGE[1]
     },
@@ -35,9 +35,9 @@ POSITION_TO_VOLTAGE = {
         "intercept": DAC_RANGE[1]/2
     }
 }
-# The calibration is assuming that the origin can be set at exactly the centre 
-# of the rod in the z direction. We cannot so this is a correction to set the 
-# height 
+# The calibration is assuming that the origin can be set at exactly the centre
+# of the rod in the z direction. We cannot so this is a correction to set the
+# height
 #                  ---------------------------------------------
 #                  |
 #                  |
@@ -50,7 +50,7 @@ POSITION_TO_VOLTAGE = {
 # Alters the equation to:
 #   voltage = slope * (pos + correction) + intercept
 POSITION_CENTRE_CORRECTION = {
-    "x": 0 / POSITION_UNIT_PREFIX, 
+    "x": 0 / POSITION_UNIT_PREFIX,
     "z": 0 / POSITION_UNIT_PREFIX
     }
 
@@ -85,8 +85,8 @@ class Point():
 
     Notes
     -----
-    Implementation of a Point in only a single dimension because Points in 
-    one dimension DOES NOT interact with another dimension except when 
+    Implementation of a Point in only a single dimension because Points in
+    one dimension DOES NOT interact with another dimension except when
     moving the Galvo mirror diagonally (in two dimensions at once).
 
     TODO: handle different speeds.
@@ -145,8 +145,8 @@ class Point():
 
         Notes
         -----
-        Finding closest bit from voltage with 12 bits of resolution, then 
-        increasing the resolution to 16 bits to coarsen by 4 bits before 
+        Finding closest bit from voltage with 12 bits of resolution, then
+        increasing the resolution to 16 bits to coarsen by 4 bits before
         finding the middle bit.
         """
         # closest bit from voltage in 12bit levels, upshifted to 16bit
@@ -159,7 +159,7 @@ class Point():
     def volt_to_pos(axis: str, volt: float) -> float:
         """Return voltage to position conversion."""
         new_pos = (
-            (volt -  POSITION_TO_VOLTAGE[axis]["intercept"]) 
+            (volt -  POSITION_TO_VOLTAGE[axis]["intercept"])
             / POSITION_TO_VOLTAGE[axis]["slope"]
             )
         return new_pos
@@ -246,13 +246,13 @@ class Point():
         if coarsen == 4:
             # special case to coarsen by 4 for speediness
             # 8 is "1000" in binary
-            coarsened = ((val >> 4) << 4) | 8     
+            coarsened = ((val >> 4) << 4) | 8
         else:
             for k in range(coarsen):
                 if k < (coarsen - 1):
                     # replace every LSB from coarsen amount by 0
-                    coarsened = self._replace_any_bit(val, k, 0)  
+                    coarsened = Point._replace_any_bit(val, k, 0)
                 else:
                     # replace coarsen amount pos by 1
-                    coarsened = self._replace_any_bit(val, k, 1)
+                    coarsened = Point._replace_any_bit(val, k, 1)
         return coarsened

@@ -9,37 +9,38 @@ except ImportError:
 MAX_SPEED = 10e3
 
 class Move():
+    """
+    Determines a sequence of bits between two points in space given an
+    initial and final position.
+
+    Also determines the time in seconds required to step through the bit
+    sequence.
+
+    Parameters
+    ----------
+    axis : str
+        Coordinate or axis of movement.
+    pos_init : float
+        Init position in μm.
+    pos_final : float
+        Final position in μm.
+    speed : float
+        Speed in μm/s.
+
+    Attributes
+    ----------
+    t
+    bits
+
+    Examples
+    --------
+    >>> move = Move("x", 1000, 2000, 100)
+    >>> move.t
+    >>> move.bits
+    """
     def __init__(
         self, axis: str, pos_init: float, pos_final: float, speed: float):
-        """
-        Determines a sequence of bits between two points in space given an 
-        initial and final position.
-        
-        Also determines the time in seconds required to step through the bit 
-        sequence.
-
-        Parameters
-        ----------
-        axis : str
-            Coordinate or axis of movement.
-        pos_init : float
-            Init position in μm.
-        pos_final : float
-            Final position in μm.
-        speed : float
-            Speed in μm/s.
-
-        Attributes
-        ----------
-        t
-        bits
-
-        Examples
-        --------
-        >>> move = Move("x", 1000, 2000, 100)
-        >>> move.t
-        >>> move.bits
-        """
+        """Inits a Move object."""
         self._axis = axis
         self._point_init = Point(axis, pos_init)
         self._point_final = Point(axis, pos_final)
@@ -53,7 +54,7 @@ class Move():
         except ZeroDivisionError:
             _t = 0
         return _t
-    
+
     @property
     def bits(self) -> np.array:
         """
@@ -101,39 +102,40 @@ class Move():
             return spd
 
 class MoveMultiDim():
+    """
+    Constant speed movement for multiple dimensions/axes.
+
+    Parameters
+    ----------
+    axis : iterable
+        Multiple axes for movement.
+    pos_init : dict
+        Initial positions in microns for all axes, where key-value is
+        axis-position.
+    pos_final : dict
+        Final positions in microns for all axes, where key-value is
+        axis-position.
+    speed : float
+        Speed in both axes in μm/s (not hypotenuse speed).
+
+    Attributes
+    ----------
+    t
+    bits
+
+    Raises
+    ------
+    TypeError
+        Input axis must be an iterable and not a string
+
+    Examples
+    --------
+    >>> move = MoveMultiDim(["x", "z"], {"x": 0, "z": 0}, {"x": 3000, "z": 5000}, 1000)
+    >>> move.t
+    >>> move.bits
+    """
     def __init__(self, axis, pos_init: dict, pos_final: dict, speed: float):
-        """
-        Constant speed movement for multiple dimensions/axes.
-
-        Parameters
-        ----------
-        axis : iterable
-            Multiple axes for movement.
-        pos_init : dict
-            Initial positions in microns for all axes, where key-value is 
-            axis-position.
-        pos_final : dict
-            Final positions in microns for all axes, where key-value is 
-            axis-position.
-        speed : float
-            Speed in both axes in μm/s (not hypotenuse speed).
-
-        Attributes
-        ----------
-        t
-        bits
-
-        Raises
-        ------
-        TypeError
-            Input axis must be an iterable and not a string
-
-        Examples
-        --------
-        >>> move = MoveMultiDim(["x", "z"], {"x": 0, "z": 0}, {"x": 3000, "z": 5000}, 1000)
-        >>> move.t
-        >>> move.bits
-        """
+        """Inits a MoveMultiDim object."""
         try:
             if not isinstance(axis, str):
                 iter(axis)
@@ -151,11 +153,11 @@ class MoveMultiDim():
             self._moves[ax] = Move(
                 ax, pos_init[ax], pos_final[ax], self._speed
                 )
-            
+
             # set movement time to the longest time out of all axes
             if self._moves[ax].t > self._t:
                 self._t = self._moves[ax].t
-    
+
     @property
     def t(self) -> float:
         """Return longest time for movement for all axes in seconds."""
@@ -168,7 +170,7 @@ class MoveMultiDim():
         for ax in self.axis:
             _bits[ax] = self._moves[ax].bits
         return _bits
-                
+
 
 if __name__ == "__main__":
     m = Move("x", 0, 0, 100)
