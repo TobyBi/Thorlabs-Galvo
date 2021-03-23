@@ -37,7 +37,7 @@ class GalvoDriver:
 
         === UNUSED ===
         V_per_deg : float, optional
-            Input voltage per degree moved. Controlled by the JP7 pin on the board (Fig 3.13 in the manual). 
+            Input voltage per degree moved. Controlled by the JP7 pin on the board (Fig 3.13 in the manual).
             The default is 0.5 but other valid options are 1  or 0.8
         beam_diameter : int or float, optional
             The input beam diameter in millimetres. The default is 8.
@@ -48,7 +48,7 @@ class GalvoDriver:
         # if V_per_deg not in SCALING:
         #     raise ValueError("{0} is not a valid volts / degree scaling option must be in {1}.".format(
         #         V_per_deg, SCALING))
-        
+
         if axis not in ["x", "z"]:
             raise ValueError("axis should be either 'x' (parallel to surface of rod) or 'z' (radially away from rod)")
 
@@ -66,65 +66,43 @@ class GalvoDriver:
 
     @property
     def pos(self) -> float:
-        """
-        Get the current absolute position of the Galvo mirror in microns
-
-        Returns
-        -------
-        float
-            Position in microns
-        """
+        """Return the absolute position of the Galvo mirror in μm."""
         return self._pos
 
     @property
     def rel_pos(self) -> float:
-        """
-        Position relative to the origin
-
-        Returns
-        -------
-        float
-        """
+        """Return the relative position to the origin in μm."""
         return self._rel_point.pos
 
     @property
     def pos_history(self) -> list:
-        """
-        History of positions in microns
-
-        Returns
-        -------
-        list
-        """
+        """Return the history of absolute positions in μm."""
         return [pnt.pos for pnt in self._point_history]
 
     def reset_pos(self):
-        """
-        Reset position to origin, immediately
-        """
+        """Immediately reset position to origin."""
         self.go_to(0, 0)
 
     @property
     def origin(self) -> float:
-        """
-        Get origin of galvo mirror in microns
-
-        Returns
-        -------
-        float
-        """
+        """Return the origin of galvo mirror in μm."""
         return self._origin.pos
 
     def set_origin(self, orig: float=None):
         """
-        Set origin of galvo mirror given a position in microns
+        Set the origin of galvo mirror given a position in μm.
 
-        Not using setter decorators as using dictionary argument inputs is not aesthetically pleasing
+        The origin is set to absolute 0 μm if no arguments are passed.
 
         Parameters
         ----------
         orig : float
-            For no input origin set the current position as origin, by default None.
+            Position in μm, by default None which sets the origin to 0 μm.
+
+        Notes
+        -----
+        Not using setter decorators as using dictionary argument inputs is not
+        aesthetically pleasing
         """
         if orig is None:
             self._origin = self._point
@@ -132,35 +110,32 @@ class GalvoDriver:
             self._origin = Point(self.axis, orig)
 
     def reset_origin(self):
-        """
-        Reset the origin to 0 without changing position
-        """
+        """Reset the origin to 0 μm without changing position."""
         self.set_origin(0)
 
     def go_to(self, new_pos: float, speed: float):
         """
-        Go to input position in microns relative to the origin from 
-        current position at input speed microns / second
+        Go to relative position in μm from current position at μm/s.
 
-        If speed > 0 microns/second then streams the position
+        If speed > 0 μm/s then streams the position.
 
         Parameters
         ----------
         new_pos : float
-            new position from origin in microns
+            New position from origin in μm.
         speed : float
-            speed in microns/second
+            Speed in μm/s.
 
         Returns
         -------
         tuple
-            First value is the actual position of the mirror, calculated from reading the DAC
-            Second value is the actual time of movement given by the streaming statistics
+            1 - position in μm of the mirror, calculated from reading the DAC.
+            2 - time in s of movement given by the streaming statistics.
 
         Raises
         ------
         KeyboardInterrupt
-            Moving stopped by user
+            Moving stopped by user.
         """
         new_pos = new_pos + self.origin
 
@@ -169,7 +144,7 @@ class GalvoDriver:
 
         # movement with labjack, for other DAQs write another conditional
         if self.open_labjack:
-            try:
+            with self.open_labjack:
                 # second condition of move.t == 0 is used when pos_init and pos_final are the same
                 # but speed > 0 resulting in trying to stream when you can't
                 if speed == 0 or move.t == 0:
@@ -177,42 +152,33 @@ class GalvoDriver:
                     actual_t = 0
                     actual_V = self.open_labjack.updater.update(move.bits[-1])
                 else:
-                    # Streaming bits between current position to new position
                     self.open_labjack.streamer.stream_setup()
                     self.open_labjack.streamer.load_data(move.bits, "int")
                     actual_t = self.open_labjack.streamer.start_stream(move.t)
                     actual_V = self.open_labjack.updater.read()
-            except KeyboardInterrupt:
-                # reads the position (transformed from the voltage) where the mirror
-                # is stopped
-                # Also, within Streamer.start_stream sleeping occurs that blocks/holds execution
-                # until the full stream has occurred, only then is the KeyboardInterrupt signal
-                # handled
-                # TODO: run laser and this on separate stream to be able to shutdown one immediately
-                # TODO: context handler for lase
-                # self.open_labjack.streamer.stop_stream()
-                try:
-                    actual_V
-                except NameError:
-                    actual_V = self.open_labjack.updater.read()
-                
-                try:
-                    actual_t
-                except NameError:
-                    actual_t = move.t
-                # using the stopped voltage to set the galvo position, even though this is the same
-                # as new_pos as streaming is blocked until it finishes
-                self._voltage = actual_V[self.dac_name]
-                print("Stopping at {0} = {1}um!".format(self.axis, self.pos))
-                # need to raise KeyboardInterrupt so that calling program above the stack can
-                # also stop other processes
-                raise KeyboardInterrupt("Moving stopped by user!")
-            else:
-                # directly set private _pos attribute because method converts pos float to Point obj
+
+            # reads the position (transformed from the voltage) where the mirror
+            # is stopped
+            # Also, within Streamer.start_stream sleeping occurs that blocks/holds execution
+            # until the full stream has occurred, only then is the KeyboardInterrupt signal
+            # handled
+            # TODO: run laser and this on separate stream to be able to shutdown one immediately
+            # TODO: context handler for lase
+            try:
+                actual_V
+            except NameError:
+                # using new_pos because the stream is blocked until it's finished
                 self._pos = new_pos
-            finally:
+                actual_point = Point(self.axis, new_pos)
+            else:
                 actual_point = Point(self.axis, voltage=actual_V[self.dac_name])
 
+            try:
+                actual_t
+            except NameError:
+                actual_t = move.t
+
+            # TODO: Might need to raise KeyboardInterrupt here?
         else:
             self._pos = new_pos
             actual_t = 0
@@ -220,45 +186,94 @@ class GalvoDriver:
 
         return actual_point.pos, actual_t
 
+            # try:
+            #     # second condition of move.t == 0 is used when pos_init and pos_final are the same
+            #     # but speed > 0 resulting in trying to stream when you can't
+            #     if speed == 0 or move.t == 0:
+            #         # Updating DAC#_BINARY with bit of closest position
+            #         actual_t = 0
+            #         actual_V = self.open_labjack.updater.update(move.bits[-1])
+            #     else:
+            #         # Streaming bits between current position to new position
+            #         self.open_labjack.streamer.stream_setup()
+            #         self.open_labjack.streamer.load_data(move.bits, "int")
+            #         actual_t = self.open_labjack.streamer.start_stream(move.t)
+            #         actual_V = self.open_labjack.updater.read()
+            # except KeyboardInterrupt:
+            #     # reads the position (transformed from the voltage) where the mirror
+            #     # is stopped
+            #     # Also, within Streamer.start_stream sleeping occurs that blocks/holds execution
+            #     # until the full stream has occurred, only then is the KeyboardInterrupt signal
+            #     # handled
+            #     # TODO: run laser and this on separate stream to be able to shutdown one immediately
+            #     # TODO: context handler for lase
+            #     # self.open_labjack.streamer.stop_stream()
+            #     try:
+            #         actual_V
+            #     except NameError:
+            #         actual_V = self.open_labjack.updater.read()
+
+            #     try:
+            #         actual_t
+            #     except NameError:
+            #         actual_t = move.t
+            #     # using the stopped voltage to set the galvo position, even though this is the same
+            #     # as new_pos as streaming is blocked until it finishes
+            #     self._voltage = actual_V[self.dac_name]
+            #     print("Stopping at {0} = {1}um!".format(self.axis, self.pos))
+            #     # need to raise KeyboardInterrupt so that calling program above the stack can
+            #     # also stop other processes
+            #     raise KeyboardInterrupt("Moving stopped by user!")
+            # else:
+            #     # directly set private _pos attribute because method converts pos float to Point obj
+            #     self._pos = new_pos
+            # finally:
+            #     actual_point = Point(self.axis, voltage=actual_V[self.dac_name])
+        # else:
+        #     self._pos = new_pos
+        #     actual_t = 0
+        #     actual_point = Point(self.axis, self.pos)
+
+        # return actual_point.pos, actual_t
+
     #=======================================================
     # PRIVATE METHODS
     #=======================================================
 
     @property
     def _rel_point(self):
-        """
-        Point relative to the origin
-
-        Returns
-        -------
-        Point
-        """
+        """Return Point object relative to the origin."""
         return self._point - self._origin
 
     @property
     def _point(self):
+        """Return absolute Point object."""
         return self.__point
-    
+
     @_point.setter
     def _point(self, val: Point):
+        """Set the Point object."""
         self._point_history.append(deepcopy(self._point))
         self.__point = val
 
     @property
     def _pos(self):
+        """Return absolute position in μm."""
         return self._point.pos
 
     @_pos.setter
     def _pos(self, val: float):
-        # these should be private methods?
+        """Set absolute position in μm."""
         self._point = Point(self.axis, val)
 
     @property
     def _voltage(self):
+        """Return absolute voltage in V."""
         return self._point.voltage
 
     @_voltage.setter
     def _voltage(self, val: float):
+        """Set absolute voltage in V."""
         self._point = Point(self.axis, voltage=val)
 
     def _revert_pos(self):
@@ -317,7 +332,7 @@ class GalvoDrivers:
 
         self._galvos = {}
         for ax in self.axis:
-            # using the Galvo objects for the axes as storage for points rather than 
+            # using the Galvo objects for the axes as storage for points rather than
             # sending labjack/DAQ commands through them
             self._galvos[ax] = GalvoDriver(ax, self.dac_name[ax], pos_init=pos_init[ax], open_labjack=False)
 
@@ -377,7 +392,7 @@ class GalvoDrivers:
             rst_pos[ax] = 0
 
         self.go_to(speed=0, **rst_pos)
-    
+
     @property
     def origin(self) -> dict:
         """
@@ -500,14 +515,14 @@ class GalvoDrivers:
                 actual_pos = {}
                 for ax in self.axis:
                     actual_pos[ax] = Point(ax, voltage=actual_V[self._galvos[ax].dac_name]).pos
-            
+
         else:
             # no connected DAQs
             actual_t = 0
             actual_pos = {}
             for ax in self.axis:
                 actual_pos[ax] = Point(ax, new_pos[ax]).pos
-        
+
         return actual_pos, actual_t
 
 if __name__ == '__main__':
@@ -527,9 +542,9 @@ if __name__ == '__main__':
     print("multi-drivers")
 
     drivers = GalvoDrivers(
-        axis=("x", "z"), 
-        dac_name={"x": "DAC0", "z": "DAC1"}, 
-        pos_init={"x": 0, "z": 0}, 
+        axis=("x", "z"),
+        dac_name={"x": "DAC0", "z": "DAC1"},
+        pos_init={"x": 0, "z": 0},
         open_labjack=False
     )
 
