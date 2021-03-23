@@ -8,13 +8,6 @@ from copy import deepcopy
 
 import numpy as np
 
-try:
-    from .Position import Point
-    from .Move import Move, MoveMultiDim
-except ImportError:
-    from Position import Point
-    from Move import Move, MoveMultiDim
-
 SCALING = [0.5, 0.8, 1]
 
 class GalvoDriver:
@@ -537,6 +530,429 @@ class GalvoDrivers:
         #         actual_pos[ax] = Point(ax, new_pos[ax]).pos
 
         # return actual_pos, actual_t
+
+
+MAX_SPEED = 10e3
+
+class Move():
+    """
+    Determines a sequence of bits between two points in space given an
+    initial and final position.
+
+    Also determines the time in seconds required to step through the bit
+    sequence.
+
+    Parameters
+    ----------
+    axis : str
+        Coordinate or axis of movement.
+    pos_init : float
+        Init position in μm.
+    pos_final : float
+        Final position in μm.
+    speed : float
+        Speed in μm/s.
+
+    Attributes
+    ----------
+    t
+    bits
+
+    Examples
+    --------
+    >>> move = Move("x", 1000, 2000, 100)
+    >>> move.t
+    >>> move.bits
+    """
+    def __init__(
+        self, axis: str, pos_init: float, pos_final: float, speed: float):
+        """Inits a Move object."""
+        self._axis = axis
+        self._point_init = Point(axis, pos_init)
+        self._point_final = Point(axis, pos_final)
+        self._speed = speed
+
+    @property
+    def t(self) -> float:
+        """Return movement time in seconds, if speed=0μm/s then t=0s."""
+        try:
+            _t = abs(self._point_init.pos - self._point_final.pos) / self._speed
+        except ZeroDivisionError:
+            _t = 0
+        return _t
+
+    @property
+    def bits(self) -> np.array:
+        """
+        Return array of bits for every point between initial and final.
+
+        Returns
+        -------
+        array of ints
+
+        Notes
+        -----
+        If speed=0μm/s, return array of length 1.
+        """
+        if self._point_init.bit < self._point_final.bit:
+            bin_steps = np.arange(
+                self._point_init.bit, self._point_final.bit + 1, DAC_SET_BITS
+                )
+        else:
+            # if point_init is greater than point_final, then switch np.arange
+            # start and stop then reverse array
+            bin_steps = np.arange(
+                self._point_final.bit, self._point_init.bit + 1, DAC_SET_BITS
+                )[::-1]
+        return bin_steps
+
+    @staticmethod
+    def speed_limits(spd: float) -> float:
+        """
+        Limits an input speed (in μm/s) to between 0 and 10k μm/s.
+
+        Parameters
+        ----------
+        spd : float
+            Speed in μm/s.
+
+        Returns
+        -------
+        float
+        """
+        if spd < 0:
+            return 0
+        elif spd > MAX_SPEED:
+            return MAX_SPEED
+        else:
+            return spd
+
+class MoveMultiDim():
+    """
+    Constant speed movement for multiple dimensions/axes.
+
+    Parameters
+    ----------
+    axis : iterable
+        Multiple axes for movement.
+    pos_init : dict
+        Initial positions in microns for all axes, where key-value is
+        axis-position.
+    pos_final : dict
+        Final positions in microns for all axes, where key-value is
+        axis-position.
+    speed : float
+        Speed in both axes in μm/s (not hypotenuse speed).
+
+    Attributes
+    ----------
+    t
+    bits
+
+    Raises
+    ------
+    TypeError
+        Input axis must be an iterable and not a string
+
+    Examples
+    --------
+    >>> move = MoveMultiDim(["x", "z"], {"x": 0, "z": 0}, {"x": 3000, "z": 5000}, 1000)
+    >>> move.t
+    >>> move.bits
+    """
+    def __init__(self, axis, pos_init: dict, pos_final: dict, speed: float):
+        """Inits a MoveMultiDim object."""
+        try:
+            if not isinstance(axis, str):
+                iter(axis)
+            else:
+                raise TypeError
+        except TypeError:
+            raise TypeError("Argument axes must be an iterable and not a string")
+        else:
+            self._axis = axis
+        self._speed = speed
+        self._t = 0
+
+        self._moves = {}
+        for ax in self.axis:
+            self._moves[ax] = Move(
+                ax, pos_init[ax], pos_final[ax], self._speed
+                )
+
+            # set movement time to the longest time out of all axes
+            if self._moves[ax].t > self._t:
+                self._t = self._moves[ax].t
+
+    @property
+    def t(self) -> float:
+        """Return longest time for movement for all axes in seconds."""
+        return self._t
+
+    @property
+    def bits(self) -> dict:
+        """Return bit array for all axes."""
+        _bits = {}
+        for ax in self.axis:
+            _bits[ax] = self._moves[ax].bits
+        return _bits
+
+# Voltage range of the DAC
+DAC_RANGE =         [0, 5]
+# Resolution of DAC voltage range in bits
+DAC_BITS =          12
+# Number of bits Labjack DAC can be set to
+DAC_SET_BITS =      16
+# DAC voltage steps
+VOLTAGE_LEVELS =    np.linspace(
+    DAC_RANGE[0], DAC_RANGE[1], num=2**DAC_BITS, endpoint=True
+    )
+# Converts positions to μm
+POSITION_UNIT_PREFIX = 1e6
+# Full length range of DAC in m
+CALIBRATION = {
+    "x": 12.37e-3, # 12.684e-3 for other galvo 2021.01.19
+    "z": 12.5e-3   # 13.24e-3 for other galvo 2021.01.19
+}
+# Provides "slope" and "intercept" in voltage = slope*pos + intercept for both
+# axes
+POSITION_TO_VOLTAGE = {
+    "x": {
+        "slope": (
+            -(DAC_RANGE[1] - DAC_RANGE[0])
+            / CALIBRATION["x"]
+            / POSITION_UNIT_PREFIX),
+        "intercept": DAC_RANGE[1]
+    },
+    "z": {
+        "slope": (
+            (DAC_RANGE[1] - DAC_RANGE[0])
+            /CALIBRATION["z"]
+            /POSITION_UNIT_PREFIX),
+        "intercept": DAC_RANGE[1]/2
+    }
+}
+# The calibration is assuming that the origin can be set at exactly the centre
+# of the rod in the z direction. We cannot so this is a correction to set the
+# height
+#                  ---------------------------------------------
+#                  |
+#                  |
+#                  |
+#                  | <- z=0 should be here
+#                  | <- but it's most likely here
+#                  |
+#                  |
+#                  ---------------------------------------------
+# Alters the equation to:
+#   voltage = slope * (pos + correction) + intercept
+POSITION_CENTRE_CORRECTION = {
+    "x": 0 / POSITION_UNIT_PREFIX,
+    "z": 0 / POSITION_UNIT_PREFIX
+    }
+
+class Point():
+    """
+    A single axis point in space representing beam position directed by Galvo.
+
+    Parameters
+    ----------
+    axis : str
+        Dimension of the point, related to the Galvo axis.
+    pos : float, optional
+        Absolute position of the point in μm, by default None.
+    voltage : float, optional
+        Absolute voltage of the point in Volts, by default None.
+
+    Raises
+    ------
+    ValueError
+        Axis/coordinate has to be either "x" or "z".
+        Must have at least either an input position or voltage.
+
+    Examples
+    --------
+    >>> p = Point("x", pos=1400)
+    >>> print(p.pos)
+    1399.9999999999998
+    >>> print(p.bit)
+    58120
+    >>> print(p.voltage)
+    4.434114793856104
+
+    Notes
+    -----
+    Implementation of a Point in only a single dimension because Points in
+    one dimension DOES NOT interact with another dimension except when
+    moving the Galvo mirror diagonally (in two dimensions at once).
+
+    TODO: handle different speeds.
+    """
+    def __init__(self, axis: str, pos : float=None, voltage: float=None):
+        """Inits a Point object."""
+        if axis not in ["x", "z"]:
+            raise ValueError("Axis should be 'x' or 'z'.")
+        if pos == None and voltage == None:
+            raise ValueError("Either pos or voltage should not be None.")
+
+        self._axis = axis
+
+        if pos != None:
+            self._pos = self._position_limits(pos)
+            # converting position to voltage
+            self._voltage = self.pos_to_volt(self._axis, self._pos)
+        elif voltage != None:
+            self._voltage = self._voltage_limits(voltage)
+            # converting voltage to position
+            self._pos = self.volt_to_pos(self._axis, self._voltage)
+
+    def __add__(self, other_point):
+        """Adds two Points, position and voltage, from the same axis."""
+        if self._axis != other_point._axis:
+            raise ValueError("Adding two points in different axes.")
+        new_pos = self.pos + other_point.pos
+        return Point(self._axis, pos=new_pos)
+
+    def __sub__(self, other_point):
+        """Substracts two Points, position and voltage, from the same axis."""
+        if self._axis != other_point._axis:
+            raise ValueError("Subtracting two points from different axes.")
+        new_pos = self.pos - other_point.pos
+        return Point(self._axis, pos=new_pos)
+
+    @property
+    def pos(self) -> float:
+        """Return position of point in μm."""
+        return self._pos
+
+    @property
+    def voltage(self) -> float:
+        """Return voltage of point in Volts."""
+        return self._voltage
+
+    @property
+    def bit(self) -> int:
+        """
+        Return the closest bit corresponding to the closest position.
+
+        Returns
+        -------
+        middle_bit : int
+            Bit corresponding to closest voltage/position to input.
+
+        Notes
+        -----
+        Finding closest bit from voltage with 12 bits of resolution, then
+        increasing the resolution to 16 bits to coarsen by 4 bits before
+        finding the middle bit.
+        """
+        # closest bit from voltage in 12bit levels, upshifted to 16bit
+        closest_bit = abs(VOLTAGE_LEVELS - self.voltage).argmin() << (DAC_SET_BITS - DAC_BITS)
+        # coarsening by 4 bits, and setting to the middle step
+        middle_bit = self._binary_coarsen(closest_bit, DAC_SET_BITS - DAC_BITS)
+        return middle_bit
+
+    @staticmethod
+    def volt_to_pos(axis: str, volt: float) -> float:
+        """Return voltage to position conversion."""
+        new_pos = (
+            (volt -  POSITION_TO_VOLTAGE[axis]["intercept"])
+            / POSITION_TO_VOLTAGE[axis]["slope"]
+            )
+        return new_pos
+
+    @staticmethod
+    def pos_to_volt(axis: str, pos: float) -> float:
+        """Return position to voltage conversion."""
+        new_volt = (
+            POSITION_TO_VOLTAGE[axis]["slope"]
+            *(pos + POSITION_CENTRE_CORRECTION[axis])
+            + POSITION_TO_VOLTAGE[axis]["intercept"]
+            )
+        return new_volt
+
+    @staticmethod
+    def _voltage_limits(volt: float) -> float:
+        """Return voltages within DAC range limits."""
+        if volt < min(DAC_RANGE):
+            return min(DAC_RANGE)
+        elif volt > max(DAC_RANGE):
+            return max(DAC_RANGE)
+        else:
+            return volt
+
+    def _position_limits(self, pos: float) -> float:
+        """Return positions within allowed DAC voltage range."""
+        set_voltage = self.pos_to_volt(self._axis, pos)
+        set_voltage = self._voltage_limits(set_voltage)
+
+        set_pos = self.volt_to_pos(self._axis, set_voltage)
+        return set_pos
+
+    @staticmethod
+    def _replace_any_bit(val: int, pos: int, new_bit: int) -> int:
+        """Replace bit at position (starting at 0) with new bit.
+
+        Helper function for Point._binary_coarsen
+
+        Parameters
+        ----------
+        val : int
+            Integer to have bit replaced.
+        pos : int
+            Position to replace starting at 0 from LSB (right).
+        new_bit : int
+            0 or 1.
+
+        Returns
+        -------
+        replaced : int
+            Integer with changed bit.
+
+        Examples
+        --------
+        >>> Point._replace_any_bit(10, 2, 0)
+        8
+        """
+        part1 = val & (~1 << pos)       # replaces bit at pos with 0
+        part2 = new_bit << pos          # shifts new_bit to pos
+        replaced = part1 | part2        # replaces 0 with new_bit at pos
+        return replaced
+
+    @staticmethod
+    def _binary_coarsen(val: int, coarsen: int) -> int:
+        """Coarsen binary value by any integer amount and set to middle bit.
+
+        Parameters
+        ----------
+        val : int
+            Integer to coarsen, unsigned.
+        coarsen : int
+            Bit value to coarsen by.
+
+        Returns
+        -------
+        val : int
+            Coarsened value.
+
+        Examples
+        --------
+        >>> Point._binary_coarsen(192830999, 4)
+        192831000
+        """
+        if coarsen == 4:
+            # special case to coarsen by 4 for speediness
+            # 8 is "1000" in binary
+            coarsened = ((val >> 4) << 4) | 8
+        else:
+            for k in range(coarsen):
+                if k < (coarsen - 1):
+                    # replace every LSB from coarsen amount by 0
+                    coarsened = Point._replace_any_bit(val, k, 0)
+                else:
+                    # replace coarsen amount pos by 1
+                    coarsened = Point._replace_any_bit(val, k, 1)
+        return coarsened
 
 if __name__ == '__main__':
     driver = GalvoDriver('x', "DAC0", pos_init=0, open_labjack=False)
