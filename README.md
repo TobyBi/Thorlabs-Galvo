@@ -6,7 +6,7 @@ Wrapper to control Thorlabs [Galvo Systems](https://www.thorlabs.de/newgrouppage
 
 - Python >= 3.8.5
 - numpy >= 1.19.5
-- [OPTIONAL] If using `Thorlabs-Galvo` with a LabJack, then the `labjack-daq` module is required. Please visit the [repository](https://github.com/TobyBi/labJack-daq) for further installation guidelines.
+- [OPTIONAL] If using `Thorlabs-Galvo` with a LabJack, then the `LabJack-DAQ` module is required. Please visit the [repository](https://github.com/TobyBi/LabJack-DAQ) for further installation guidelines.
 
 Only written and tested with LabJack DAQ control and Thorlabs GVS112/M Galvo Systems.
 
