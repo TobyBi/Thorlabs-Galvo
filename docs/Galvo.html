@@ -1,0 +1,2857 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.2" />
+<title>Galvo API documentation</title>
+<meta name="description" content="TODO: Public and private attribute for self.axis where I only write a @property so can only read self.axis and not write" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>Galvo</code></h1>
+</header>
+<section id="section-intro">
+<p>TODO: Public and private attribute for self.axis where I only write a @property so can only read self.axis and not write</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+TODO: Public and private attribute for self.axis where I only write a @property so can only read self.axis and not write
+&#34;&#34;&#34;
+
+import warnings
+import time
+from copy import deepcopy
+
+import numpy as np
+
+SCALING = [0.5, 0.8, 1]
+
+class GalvoDriver:
+    &#34;&#34;&#34;
+    Interface to Thorlabs galvo driver controlling a single axis mirror
+
+    Currently only supports use with LabJack.
+
+    Parameters
+    ----------
+    axis : str
+        Axis that the Galvo driver is controlling. Either &#34;x&#34; or &#34;z&#34;
+    dac_name : str
+        DAC output register name for LabJack
+    pos_init : float, optional
+        Initial position to set the mirror in microns
+    open_labjack : bool, optional
+        [description], by default False
+
+    === UNUSED ===
+    V_per_deg : float, optional
+        Input voltage per degree moved. Controlled by the JP7 pin on the board (Fig 3.13 in the manual).
+        The default is 0.5 but other valid options are 1  or 0.8
+    beam_diameter : int or float, optional
+        The input beam diameter in millimetres. The default is 8.
+
+    TODO: add a logger?
+    TODO: limiting inputs
+    &#34;&#34;&#34;
+    def __init__(self, axis, dac_name, pos_init=0, open_labjack=False):
+        &#34;&#34;&#34;Inits a GalvoDriver object.&#34;&#34;&#34;
+        # if V_per_deg not in SCALING:
+        #     raise ValueError(&#34;{0} is not a valid volts / degree scaling option must be in {1}.&#34;.format(
+        #         V_per_deg, SCALING))
+
+        if axis not in [&#34;x&#34;, &#34;z&#34;]:
+            raise ValueError(&#34;axis should be either &#39;x&#39; (parallel to surface of rod) or &#39;z&#39; (radially away from rod)&#34;)
+
+        self.axis = axis                    # axis of the galvo mirror the driver is controlling
+        self.dac_name = dac_name
+        # self.scaling = V_per_deg * 180 / np.pi          # volts / degree scaling set on the GalvoDriver card, converted to radians
+
+        self.open_labjack = open_labjack
+
+        self.__point = Point(self.axis, pos_init)      # must initialise for point adding later
+        self._point_history = [Point(self.axis, pos_init)]
+
+        self.set_origin(pos_init)
+        self.go_to(pos_init, 0)
+
+    @property
+    def pos(self) -&gt; float:
+        &#34;&#34;&#34;Return the absolute position of the Galvo mirror in μm.&#34;&#34;&#34;
+        return self._pos
+
+    @property
+    def rel_pos(self) -&gt; float:
+        &#34;&#34;&#34;Return the relative position to the origin in μm.&#34;&#34;&#34;
+        return self._rel_point.pos
+
+    @property
+    def pos_history(self) -&gt; list:
+        &#34;&#34;&#34;Return the history of absolute positions in μm.&#34;&#34;&#34;
+        return [pnt.pos for pnt in self._point_history]
+
+    def reset_pos(self):
+        &#34;&#34;&#34;Immediately reset position to origin.&#34;&#34;&#34;
+        self.go_to(0, 0)
+
+    @property
+    def origin(self) -&gt; float:
+        &#34;&#34;&#34;Return the origin of galvo mirror in μm.&#34;&#34;&#34;
+        return self._origin.pos
+
+    def set_origin(self, orig: float=None):
+        &#34;&#34;&#34;
+        Set the origin of galvo mirror given a position in μm.
+
+        The origin is set to absolute 0 μm if no arguments are passed.
+
+        Parameters
+        ----------
+        orig : float
+            Position in μm, by default None which sets the origin to 0 μm.
+
+        Notes
+        -----
+        Not using setter decorators as using dictionary argument inputs is not
+        aesthetically pleasing
+        &#34;&#34;&#34;
+        if orig is None:
+            self._origin = self._point
+        else:
+            self._origin = Point(self.axis, orig)
+
+    def reset_origin(self):
+        &#34;&#34;&#34;Reset the origin to 0 μm without changing position.&#34;&#34;&#34;
+        self.set_origin(0)
+
+    def go_to(self, new_pos: float, speed: float):
+        &#34;&#34;&#34;
+        Go to relative position in μm from current position at μm/s.
+
+        If speed &gt; 0 μm/s then streams the position.
+
+        Parameters
+        ----------
+        new_pos : float
+            New position from origin in μm.
+        speed : float
+            Speed in μm/s.
+
+        Returns
+        -------
+        tuple
+            1 - position in μm of the mirror, calculated from reading the DAC.
+            2 - time in s of movement given by the streaming statistics.
+
+        Raises
+        ------
+        KeyboardInterrupt
+            Moving stopped by user.
+        &#34;&#34;&#34;
+        new_pos = new_pos + self.origin
+
+        # move contains all bits between the two position
+        move = Move(self.axis, self.pos, new_pos, speed)
+
+        # movement with labjack, for other DAQs write another conditional
+        if self.open_labjack:
+            with self.open_labjack:
+                # second condition of move.t == 0 is used when pos_init and pos_final are the same
+                # but speed &gt; 0 resulting in trying to stream when you can&#39;t
+                if speed == 0 or move.t == 0:
+                    # Updating DAC#_BINARY with bit of closest position
+                    actual_t = 0
+                    actual_V = self.open_labjack.updater.update(move.bits[-1])
+                else:
+                    self.open_labjack.streamer.stream_setup()
+                    self.open_labjack.streamer.load_data(move.bits, &#34;int&#34;)
+                    actual_t = self.open_labjack.streamer.start_stream(move.t)
+                    actual_V = self.open_labjack.updater.read()
+
+            # reads the position (transformed from the voltage) where the mirror
+            # is stopped
+            # Also, within Streamer.start_stream sleeping occurs that blocks/holds execution
+            # until the full stream has occurred, only then is the KeyboardInterrupt signal
+            # handled
+            # TODO: run laser and this on separate stream to be able to shutdown one immediately
+            try:
+                actual_V
+            except NameError:
+                # using new_pos because the stream is blocked until it&#39;s finished
+                self._pos = new_pos
+                actual_point = Point(self.axis, new_pos)
+            else:
+                actual_point = Point(self.axis, voltage=actual_V[self.dac_name])
+
+            try:
+                actual_t
+            except NameError:
+                actual_t = move.t
+
+            # TODO: Might need to raise KeyboardInterrupt here?
+        else:
+            self._pos = new_pos
+            actual_t = 0
+            actual_point = Point(self.axis, self.pos)
+
+        return actual_point.pos, actual_t
+
+        # if self.open_labjack:
+            # try:
+            #     # second condition of move.t == 0 is used when pos_init and pos_final are the same
+            #     # but speed &gt; 0 resulting in trying to stream when you can&#39;t
+            #     if speed == 0 or move.t == 0:
+            #         # Updating DAC#_BINARY with bit of closest position
+            #         actual_t = 0
+            #         actual_V = self.open_labjack.updater.update(move.bits[-1])
+            #     else:
+            #         # Streaming bits between current position to new position
+            #         self.open_labjack.streamer.stream_setup()
+            #         self.open_labjack.streamer.load_data(move.bits, &#34;int&#34;)
+            #         actual_t = self.open_labjack.streamer.start_stream(move.t)
+            #         actual_V = self.open_labjack.updater.read()
+            # except KeyboardInterrupt:
+            #     # reads the position (transformed from the voltage) where the mirror
+            #     # is stopped
+            #     # Also, within Streamer.start_stream sleeping occurs that blocks/holds execution
+            #     # until the full stream has occurred, only then is the KeyboardInterrupt signal
+            #     # handled
+            #     # TODO: run laser and this on separate stream to be able to shutdown one immediately
+            #     # TODO: context handler for lase
+            #     # self.open_labjack.streamer.stop_stream()
+            #     try:
+            #         actual_V
+            #     except NameError:
+            #         actual_V = self.open_labjack.updater.read()
+
+            #     try:
+            #         actual_t
+            #     except NameError:
+            #         actual_t = move.t
+            #     # using the stopped voltage to set the galvo position, even though this is the same
+            #     # as new_pos as streaming is blocked until it finishes
+            #     self._voltage = actual_V[self.dac_name]
+            #     print(&#34;Stopping at {0} = {1}um!&#34;.format(self.axis, self.pos))
+            #     # need to raise KeyboardInterrupt so that calling program above the stack can
+            #     # also stop other processes
+            #     raise KeyboardInterrupt(&#34;Moving stopped by user!&#34;)
+            # else:
+            #     # directly set private _pos attribute because method converts pos float to Point obj
+            #     self._pos = new_pos
+            # finally:
+            #     actual_point = Point(self.axis, voltage=actual_V[self.dac_name])
+        # else:
+        #     self._pos = new_pos
+        #     actual_t = 0
+        #     actual_point = Point(self.axis, self.pos)
+
+        # return actual_point.pos, actual_t
+
+    #=======================================================
+    # PRIVATE METHODS
+    #=======================================================
+
+    @property
+    def _rel_point(self):
+        &#34;&#34;&#34;Return Point object relative to the origin.&#34;&#34;&#34;
+        return self._point - self._origin
+
+    @property
+    def _point(self):
+        &#34;&#34;&#34;Return absolute Point object.&#34;&#34;&#34;
+        return self.__point
+
+    @_point.setter
+    def _point(self, val):
+        &#34;&#34;&#34;Set the Point object where ``val`` should be a Point object.&#34;&#34;&#34;
+        self._point_history.append(deepcopy(self._point))
+        self.__point = val
+
+    @property
+    def _pos(self):
+        &#34;&#34;&#34;Return absolute position in μm.&#34;&#34;&#34;
+        return self._point.pos
+
+    @_pos.setter
+    def _pos(self, val: float):
+        &#34;&#34;&#34;Set absolute position in μm.&#34;&#34;&#34;
+        self._point = Point(self.axis, val)
+
+    @property
+    def _voltage(self):
+        &#34;&#34;&#34;Return absolute voltage in V.&#34;&#34;&#34;
+        return self._point.voltage
+
+    @_voltage.setter
+    def _voltage(self, val: float):
+        &#34;&#34;&#34;Set absolute voltage in V.&#34;&#34;&#34;
+        self._point = Point(self.axis, voltage=val)
+
+    def _revert_pos(self):
+        &#34;&#34;&#34;
+        Revert to the most recent position, without sending command to DAQ
+
+        UNUSED
+        &#34;&#34;&#34;
+        temp_point = deepcopy(self._point)
+        self._point = deepcopy(self._point_history[-1])
+        self._point_history.append(temp_point)
+
+
+class GalvoDrivers:
+    &#34;&#34;&#34;
+    Combines multiple Thorlabs galvo drivers to simultaneously control them.
+
+    Only supports use with LabJack.
+
+    Parameters
+    ----------
+    axis : iterable of str
+        Multiple axes of Galvo drivers to control simultaneously
+    dac_name : dict
+        Dict of DAC output register names for LabJack for each axis
+    pos_init : dict
+        Dict of initial positions to set the mirror of each axis in microns
+    open_labjack : bool, optional
+        LabJack object if it is connected physically, by default False.
+        Make sure to add Updater and Streamer to LabJack object that have matching
+        input and output registers
+
+    Raises
+    ------
+    KeyError
+        dac_name dict keys doesn&#39;t match the input axis
+    KeyError
+        pos_init dict keys doesn&#39;t match the input axis
+    &#34;&#34;&#34;
+    def __init__(self, axis, dac_name: dict, pos_init: dict, open_labjack=False):
+        &#34;&#34;&#34;Inits a GalvoDrivers object.&#34;&#34;&#34;
+        self.axis = axis
+
+        for ax in self.axis:
+            try:
+                dac_name[ax]
+            except KeyError:
+                raise KeyError(&#34;Input dac_name axes is missing &#39;{0}&#39;-axis&#34;.format(ax))
+
+            try:
+                pos_init[ax]
+            except KeyError:
+                raise KeyError(&#34;Input pos_init axes is missing &#39;{0}&#39;-axis&#34;.format(ax))
+
+        self.dac_name = dac_name
+        self.open_labjack = open_labjack
+
+        self._galvos = {}
+        for ax in self.axis:
+            # using the Galvo objects for the axes as storage for points rather than
+            # sending labjack/DAQ commands through them
+            self._galvos[ax] = GalvoDriver(ax, self.dac_name[ax], pos_init=pos_init[ax], open_labjack=False)
+
+        self.go_to(**pos_init, speed=0)
+
+    @property
+    def pos(self) -&gt; dict:
+        &#34;&#34;&#34;Return absolute positions for all stored 1D galvos in μm.&#34;&#34;&#34;
+        _pos = {}
+        for ax in self.axis:
+            _pos[ax] = self._galvos[ax].pos
+        return _pos
+
+    @property
+    def rel_pos(self) -&gt; dict:
+        &#34;&#34;&#34;Return relative positions for all stored 1D galvos in μm.&#34;&#34;&#34;
+        _rel_pos = {}
+        for ax in self.axis:
+            _rel_pos[ax] = self._galvos[ax].rel_pos
+        return _rel_pos
+
+    @property
+    def pos_history(self) -&gt; dict:
+        &#34;&#34;&#34;Return absolute position history for all stored 1D galvos.&#34;&#34;&#34;
+        _pos_history = {}
+        for ax in self.axis:
+            _pos_history[ax] = self._galvos[ax].pos_history
+        return _pos_history
+
+    def reset_pos(self):
+        &#34;&#34;&#34;Reset the relative positions of all stored 1D galvos to 0 μm.&#34;&#34;&#34;
+        rst_pos = {}
+        for ax in self.axis:
+            rst_pos[ax] = 0
+
+        self.go_to(speed=0, **rst_pos)
+
+    @property
+    def origin(self) -&gt; dict:
+        &#34;&#34;&#34;Return origin for all stored 1D galvos in μm.&#34;&#34;&#34;
+        _origin = {}
+        for ax in self.axis:
+            _origin[ax] = (self._galvos[ax].origin)
+        return _origin
+
+    def set_origin(self, **orig):
+        &#34;&#34;&#34;
+        Set the origin of all stored 1D Galvos in μm.
+
+        Named arguments have the form ``{axis_name: origin}``.
+
+        Parameters
+        ----------
+        orig : optional, {axis_name: origin}
+            Origin in μm for each galvo axis.
+        &#34;&#34;&#34;
+        for ax in self.axis:
+            if not orig:
+                self._galvos[ax].set_origin()
+            else:
+                try:
+                    self._galvos[ax].set_origin(orig[ax])
+                except KeyError:
+                    print(&#34;Axis &#39;{0}&#39; not found in input choices, it remains unchanged&#34;)
+
+    def reset_origin(self):
+        &#34;&#34;&#34;Set the origin of all stored 1D galvos to 0 μm.&#34;&#34;&#34;
+        for ax in self.axis:
+            self._galvos[ax].set_origin(0)
+
+    def go_to(self, speed: float=0, **new_pos) -&gt; tuple:
+        &#34;&#34;&#34;
+        Go to input relative positions in μm input speed in μm/s for all axes.
+
+        Input speed is the same for each axis. For example with 2 axes, if one
+        axis is moving a larger distance, then the other axis will finish
+        before the longer distance is finished.
+
+        If speed &gt; 0 μm/s then labjack streams.
+
+        Parameters
+        ----------
+        speed : float, optional
+            Speed in μm/s, by default 0 μm/s.
+        new_pos : optional, {axis_name: new_pos}
+            New position from origin in μm, by default no movement for given
+            axis.
+
+        Returns
+        -------
+        tuple
+            1 - a dict, with the actual position of all 1D galvos,
+            2 - the actual time of movement in s given by the DAQ.
+
+        Raises
+        ------
+        KeyboardInterrupt
+            Moving stopped by user.
+        &#34;&#34;&#34;
+        # use stored 1D galvos to calculate the new absolute position for each axis
+        original_pos = self.pos
+        new_abs_pos = {}
+        for ax in self.axis:
+            new_abs_pos[ax] = self._galvos[ax].go_to(new_pos[ax], speed)[0]
+
+        move = MoveMultiDim(self.axis, original_pos, new_abs_pos, speed)
+
+        if self.open_labjack:
+            with self.open_labjack:
+                if speed == 0 or move.t == 0:
+                    # Updater wants a tuple of values matching the number of write registers
+                    move_bits = tuple([mb[-1] for mb in tuple(move.bits.values())])
+                    actual_t = 0
+                    actual_V = self.open_labjack.updater.update(move_bits)
+                else:
+                    # movement bits for each axis
+                    move_bits = tuple(move.bits.values())
+                    self.open_labjack.streamer.stream_setup()
+                    self.open_labjack.streamer.load_data(move_bits, &#34;int&#34;)
+                    actual_t = self.open_labjack.streamer.start_stream(move.t)
+                    actual_V = self.open_labjack.updater.read()
+
+            try:
+                actual_V
+            except NameError:
+                # stored galvos already have their positions set to the new position
+                actual_V = self.open_labjack.updater.read()
+                stopped_pos = []
+                for ax in self.axis:
+                    self._galvos[ax].voltage = actual_V[self._galvos[ax].dac_name]
+                    stopped_pos.append(str(self._galvos[ax].pos))
+            finally:
+                actual_pos = {}
+                for ax in self.axis:
+                    actual_pos[ax] = Point(ax, voltage=actual_V[self._galvos[ax].dac_name]).pos
+
+            try:
+                actual_t
+            except NameError:
+                actual_t = move.t
+
+            # TODO: Might need to raise KeyboardInterrupt here?
+        else:
+            # no connected DAQs
+            actual_t = 0
+            actual_pos = {}
+            for ax in self.axis:
+                actual_pos[ax] = Point(ax, new_pos[ax]).pos
+
+        return actual_pos, actual_t
+
+        # if self.open_labjack:
+        #     try:
+        #         # this part is the same as a single galvo axis except it assumes that
+        #         # the Labjack updater and streamer have the same number of registers
+        #         # as the number of move bits
+        #         if speed == 0 or move.t == 0:
+        #             # Updater wants a tuple of values matching the number of write registers
+        #             move_bits = tuple([mb[-1] for mb in tuple(move.bits.values())])
+        #             actual_t = 0
+        #             actual_V = self.open_labjack.updater.update(move_bits)
+        #         else:
+        #             # movement bits for each axis
+        #             move_bits = tuple(move.bits.values())
+        #             self.open_labjack.streamer.stream_setup()
+        #             self.open_labjack.streamer.load_data(move_bits, &#34;int&#34;)
+        #             actual_t = self.open_labjack.streamer.start_stream(move.t)
+        #             actual_V = self.open_labjack.updater.read()
+        #     except KeyboardInterrupt:
+        #         # self.open_labjack.streamer.stop_stream() KeyboardInterrupt in Streamer handles this
+        #         try:
+        #             actual_V
+        #         except NameError:
+        #             actual_V = self.open_labjack.updater.read()
+
+        #         try:
+        #             actual_t
+        #         except NameError:
+        #             actual_t = move.t
+
+        #         # setting the stored 1D galvos to the stopped positions
+        #         stopped_pos = []
+        #         for ax in self.axis:
+        #             self._galvos[ax].voltage = actual_V[self._galvos[ax].dac_name]
+        #             stopped_pos.append(str(self._galvos[ax].pos))
+        #         print(&#34;Stopping at ({0}) = ({1})um&#34;.format(&#34;, &#34;.join(self.axis), &#34;, &#34;.join(stopped_pos)))
+        #         # need to raise KeyboardInterrupt so that calling program above the stack can
+        #         # also stop other processes
+        #         raise KeyboardInterrupt(&#34;Moving stopped by user!&#34;)
+        #     finally:
+        #         actual_pos = {}
+        #         for ax in self.axis:
+        #             actual_pos[ax] = Point(ax, voltage=actual_V[self._galvos[ax].dac_name]).pos
+
+        # else:
+        #     # no connected DAQs
+        #     actual_t = 0
+        #     actual_pos = {}
+        #     for ax in self.axis:
+        #         actual_pos[ax] = Point(ax, new_pos[ax]).pos
+
+        # return actual_pos, actual_t
+
+
+MAX_SPEED = 10e3
+
+class Move():
+    &#34;&#34;&#34;
+    Determines a sequence of bits between two points in space given an
+    initial and final position.
+
+    Also determines the time in seconds required to step through the bit
+    sequence.
+
+    Parameters
+    ----------
+    axis : str
+        Coordinate or axis of movement.
+    pos_init : float
+        Init position in μm.
+    pos_final : float
+        Final position in μm.
+    speed : float
+        Speed in μm/s.
+
+    Attributes
+    ----------
+    t
+    bits
+
+    Examples
+    --------
+    &gt;&gt;&gt; move = Move(&#34;x&#34;, 1000, 2000, 100)
+    &gt;&gt;&gt; move.t
+    &gt;&gt;&gt; move.bits
+    &#34;&#34;&#34;
+    def __init__(
+        self, axis: str, pos_init: float, pos_final: float, speed: float):
+        &#34;&#34;&#34;Inits a Move object.&#34;&#34;&#34;
+        self._axis = axis
+        self._point_init = Point(axis, pos_init)
+        self._point_final = Point(axis, pos_final)
+        self._speed = speed
+
+    @property
+    def t(self) -&gt; float:
+        &#34;&#34;&#34;Return movement time in seconds, if speed=0μm/s then t=0s.&#34;&#34;&#34;
+        try:
+            _t = abs(self._point_init.pos - self._point_final.pos) / self._speed
+        except ZeroDivisionError:
+            _t = 0
+        return _t
+
+    @property
+    def bits(self) -&gt; np.array:
+        &#34;&#34;&#34;
+        Return array of bits for every point between initial and final.
+
+        Returns
+        -------
+        array of ints
+
+        Notes
+        -----
+        If speed=0μm/s, return array of length 1.
+        &#34;&#34;&#34;
+        if self._point_init.bit &lt; self._point_final.bit:
+            bin_steps = np.arange(
+                self._point_init.bit, self._point_final.bit + 1, DAC_SET_BITS
+                )
+        else:
+            # if point_init is greater than point_final, then switch np.arange
+            # start and stop then reverse array
+            bin_steps = np.arange(
+                self._point_final.bit, self._point_init.bit + 1, DAC_SET_BITS
+                )[::-1]
+        return bin_steps
+
+    @staticmethod
+    def speed_limits(spd: float) -&gt; float:
+        &#34;&#34;&#34;
+        Limits an input speed (in μm/s) to between 0 and 10k μm/s.
+
+        Parameters
+        ----------
+        spd : float
+            Speed in μm/s.
+
+        Returns
+        -------
+        float
+        &#34;&#34;&#34;
+        if spd &lt; 0:
+            return 0
+        elif spd &gt; MAX_SPEED:
+            return MAX_SPEED
+        else:
+            return spd
+
+class MoveMultiDim():
+    &#34;&#34;&#34;
+    Constant speed movement for multiple dimensions/axes.
+
+    Parameters
+    ----------
+    axis : iterable
+        Multiple axes for movement.
+    pos_init : dict
+        Initial positions in microns for all axes, where key-value is
+        axis-position.
+    pos_final : dict
+        Final positions in microns for all axes, where key-value is
+        axis-position.
+    speed : float
+        Speed in both axes in μm/s (not hypotenuse speed).
+
+    Attributes
+    ----------
+    t
+    bits
+
+    Raises
+    ------
+    TypeError
+        Input axis must be an iterable and not a string
+
+    Examples
+    --------
+    &gt;&gt;&gt; move = MoveMultiDim([&#34;x&#34;, &#34;z&#34;], {&#34;x&#34;: 0, &#34;z&#34;: 0}, {&#34;x&#34;: 3000, &#34;z&#34;: 5000}, 1000)
+    &gt;&gt;&gt; move.t
+    &gt;&gt;&gt; move.bits
+    &#34;&#34;&#34;
+    def __init__(self, axis, pos_init: dict, pos_final: dict, speed: float):
+        &#34;&#34;&#34;Inits a MoveMultiDim object.&#34;&#34;&#34;
+        try:
+            if not isinstance(axis, str):
+                iter(axis)
+            else:
+                raise TypeError
+        except TypeError:
+            raise TypeError(&#34;Argument axes must be an iterable and not a string&#34;)
+        else:
+            self._axis = axis
+        self._speed = speed
+        self._t = 0
+
+        self._moves = {}
+        for ax in self.axis:
+            self._moves[ax] = Move(
+                ax, pos_init[ax], pos_final[ax], self._speed
+                )
+
+            # set movement time to the longest time out of all axes
+            if self._moves[ax].t &gt; self._t:
+                self._t = self._moves[ax].t
+
+    @property
+    def t(self) -&gt; float:
+        &#34;&#34;&#34;Return longest time for movement for all axes in seconds.&#34;&#34;&#34;
+        return self._t
+
+    @property
+    def bits(self) -&gt; dict:
+        &#34;&#34;&#34;Return bit array for all axes.&#34;&#34;&#34;
+        _bits = {}
+        for ax in self.axis:
+            _bits[ax] = self._moves[ax].bits
+        return _bits
+
+# Voltage range of the DAC
+DAC_RANGE =         [0, 5]
+# Resolution of DAC voltage range in bits
+DAC_BITS =          12
+# Number of bits Labjack DAC can be set to
+DAC_SET_BITS =      16
+# DAC voltage steps
+VOLTAGE_LEVELS =    np.linspace(
+    DAC_RANGE[0], DAC_RANGE[1], num=2**DAC_BITS, endpoint=True
+    )
+# Converts positions to μm
+POSITION_UNIT_PREFIX = 1e6
+# Full length range of DAC in m
+CALIBRATION = {
+    &#34;x&#34;: 12.37e-3, # 12.684e-3 for other galvo 2021.01.19
+    &#34;z&#34;: 12.5e-3   # 13.24e-3 for other galvo 2021.01.19
+}
+# Provides &#34;slope&#34; and &#34;intercept&#34; in voltage = slope*pos + intercept for both
+# axes
+POSITION_TO_VOLTAGE = {
+    &#34;x&#34;: {
+        &#34;slope&#34;: (
+            -(DAC_RANGE[1] - DAC_RANGE[0])
+            / CALIBRATION[&#34;x&#34;]
+            / POSITION_UNIT_PREFIX),
+        &#34;intercept&#34;: DAC_RANGE[1]
+    },
+    &#34;z&#34;: {
+        &#34;slope&#34;: (
+            (DAC_RANGE[1] - DAC_RANGE[0])
+            /CALIBRATION[&#34;z&#34;]
+            /POSITION_UNIT_PREFIX),
+        &#34;intercept&#34;: DAC_RANGE[1]/2
+    }
+}
+# The calibration is assuming that the origin can be set at exactly the centre
+# of the rod in the z direction. We cannot so this is a correction to set the
+# height
+#                  ---------------------------------------------
+#                  |
+#                  |
+#                  |
+#                  | &lt;- z=0 should be here
+#                  | &lt;- but it&#39;s most likely here
+#                  |
+#                  |
+#                  ---------------------------------------------
+# Alters the equation to:
+#   voltage = slope * (pos + correction) + intercept
+POSITION_CENTRE_CORRECTION = {
+    &#34;x&#34;: 0 / POSITION_UNIT_PREFIX,
+    &#34;z&#34;: 0 / POSITION_UNIT_PREFIX
+    }
+
+class Point():
+    &#34;&#34;&#34;
+    A single axis point in space representing beam position directed by Galvo.
+
+    Parameters
+    ----------
+    axis : str
+        Dimension of the point, related to the Galvo axis.
+    pos : float, optional
+        Absolute position of the point in μm, by default None.
+    voltage : float, optional
+        Absolute voltage of the point in Volts, by default None.
+
+    Raises
+    ------
+    ValueError
+        Axis/coordinate has to be either &#34;x&#34; or &#34;z&#34;.
+        Must have at least either an input position or voltage.
+
+    Examples
+    --------
+    &gt;&gt;&gt; p = Point(&#34;x&#34;, pos=1400)
+    &gt;&gt;&gt; print(p.pos)
+    1399.9999999999998
+    &gt;&gt;&gt; print(p.bit)
+    58120
+    &gt;&gt;&gt; print(p.voltage)
+    4.434114793856104
+
+    Notes
+    -----
+    Implementation of a Point in only a single dimension because Points in
+    one dimension DOES NOT interact with another dimension except when
+    moving the Galvo mirror diagonally (in two dimensions at once).
+
+    TODO: handle different speeds.
+    &#34;&#34;&#34;
+    def __init__(self, axis: str, pos : float=None, voltage: float=None):
+        &#34;&#34;&#34;Inits a Point object.&#34;&#34;&#34;
+        if axis not in [&#34;x&#34;, &#34;z&#34;]:
+            raise ValueError(&#34;Axis should be &#39;x&#39; or &#39;z&#39;.&#34;)
+        if pos == None and voltage == None:
+            raise ValueError(&#34;Either pos or voltage should not be None.&#34;)
+
+        self._axis = axis
+
+        if pos != None:
+            self._pos = self._position_limits(pos)
+            # converting position to voltage
+            self._voltage = self.pos_to_volt(self._axis, self._pos)
+        elif voltage != None:
+            self._voltage = self._voltage_limits(voltage)
+            # converting voltage to position
+            self._pos = self.volt_to_pos(self._axis, self._voltage)
+
+    def __add__(self, other_point):
+        &#34;&#34;&#34;Adds two Points, position and voltage, from the same axis.&#34;&#34;&#34;
+        if self._axis != other_point._axis:
+            raise ValueError(&#34;Adding two points in different axes.&#34;)
+        new_pos = self.pos + other_point.pos
+        return Point(self._axis, pos=new_pos)
+
+    def __sub__(self, other_point):
+        &#34;&#34;&#34;Substracts two Points, position and voltage, from the same axis.&#34;&#34;&#34;
+        if self._axis != other_point._axis:
+            raise ValueError(&#34;Subtracting two points from different axes.&#34;)
+        new_pos = self.pos - other_point.pos
+        return Point(self._axis, pos=new_pos)
+
+    @property
+    def pos(self) -&gt; float:
+        &#34;&#34;&#34;Return position of point in μm.&#34;&#34;&#34;
+        return self._pos
+
+    @property
+    def voltage(self) -&gt; float:
+        &#34;&#34;&#34;Return voltage of point in Volts.&#34;&#34;&#34;
+        return self._voltage
+
+    @property
+    def bit(self) -&gt; int:
+        &#34;&#34;&#34;
+        Return the closest bit corresponding to the closest position.
+
+        Returns
+        -------
+        middle_bit : int
+            Bit corresponding to closest voltage/position to input.
+
+        Notes
+        -----
+        Finding closest bit from voltage with 12 bits of resolution, then
+        increasing the resolution to 16 bits to coarsen by 4 bits before
+        finding the middle bit.
+        &#34;&#34;&#34;
+        # closest bit from voltage in 12bit levels, upshifted to 16bit
+        closest_bit = abs(VOLTAGE_LEVELS - self.voltage).argmin() &lt;&lt; (DAC_SET_BITS - DAC_BITS)
+        # coarsening by 4 bits, and setting to the middle step
+        middle_bit = self._binary_coarsen(closest_bit, DAC_SET_BITS - DAC_BITS)
+        return middle_bit
+
+    @staticmethod
+    def volt_to_pos(axis: str, volt: float) -&gt; float:
+        &#34;&#34;&#34;Return voltage to position conversion.&#34;&#34;&#34;
+        new_pos = (
+            (volt -  POSITION_TO_VOLTAGE[axis][&#34;intercept&#34;])
+            / POSITION_TO_VOLTAGE[axis][&#34;slope&#34;]
+            )
+        return new_pos
+
+    @staticmethod
+    def pos_to_volt(axis: str, pos: float) -&gt; float:
+        &#34;&#34;&#34;Return position to voltage conversion.&#34;&#34;&#34;
+        new_volt = (
+            POSITION_TO_VOLTAGE[axis][&#34;slope&#34;]
+            *(pos + POSITION_CENTRE_CORRECTION[axis])
+            + POSITION_TO_VOLTAGE[axis][&#34;intercept&#34;]
+            )
+        return new_volt
+
+    @staticmethod
+    def _voltage_limits(volt: float) -&gt; float:
+        &#34;&#34;&#34;Return voltages within DAC range limits.&#34;&#34;&#34;
+        if volt &lt; min(DAC_RANGE):
+            return min(DAC_RANGE)
+        elif volt &gt; max(DAC_RANGE):
+            return max(DAC_RANGE)
+        else:
+            return volt
+
+    def _position_limits(self, pos: float) -&gt; float:
+        &#34;&#34;&#34;Return positions within allowed DAC voltage range.&#34;&#34;&#34;
+        set_voltage = self.pos_to_volt(self._axis, pos)
+        set_voltage = self._voltage_limits(set_voltage)
+
+        set_pos = self.volt_to_pos(self._axis, set_voltage)
+        return set_pos
+
+    @staticmethod
+    def _replace_any_bit(val: int, pos: int, new_bit: int) -&gt; int:
+        &#34;&#34;&#34;Replace bit at position (starting at 0) with new bit.
+
+        Helper function for Point._binary_coarsen
+
+        Parameters
+        ----------
+        val : int
+            Integer to have bit replaced.
+        pos : int
+            Position to replace starting at 0 from LSB (right).
+        new_bit : int
+            0 or 1.
+
+        Returns
+        -------
+        replaced : int
+            Integer with changed bit.
+
+        Examples
+        --------
+        &gt;&gt;&gt; Point._replace_any_bit(10, 2, 0)
+        8
+        &#34;&#34;&#34;
+        part1 = val &amp; (~1 &lt;&lt; pos)       # replaces bit at pos with 0
+        part2 = new_bit &lt;&lt; pos          # shifts new_bit to pos
+        replaced = part1 | part2        # replaces 0 with new_bit at pos
+        return replaced
+
+    @staticmethod
+    def _binary_coarsen(val: int, coarsen: int) -&gt; int:
+        &#34;&#34;&#34;Coarsen binary value by any integer amount and set to middle bit.
+
+        Parameters
+        ----------
+        val : int
+            Integer to coarsen, unsigned.
+        coarsen : int
+            Bit value to coarsen by.
+
+        Returns
+        -------
+        val : int
+            Coarsened value.
+
+        Examples
+        --------
+        &gt;&gt;&gt; Point._binary_coarsen(192830999, 4)
+        192831000
+        &#34;&#34;&#34;
+        if coarsen == 4:
+            # special case to coarsen by 4 for speediness
+            # 8 is &#34;1000&#34; in binary
+            coarsened = ((val &gt;&gt; 4) &lt;&lt; 4) | 8
+        else:
+            for k in range(coarsen):
+                if k &lt; (coarsen - 1):
+                    # replace every LSB from coarsen amount by 0
+                    coarsened = Point._replace_any_bit(val, k, 0)
+                else:
+                    # replace coarsen amount pos by 1
+                    coarsened = Point._replace_any_bit(val, k, 1)
+        return coarsened
+
+if __name__ == &#39;__main__&#39;:
+    driver = GalvoDriver(&#39;x&#39;, &#34;DAC0&#34;, pos_init=0, open_labjack=False)
+
+    for pos in [-1, 6, 2000, 12300, 1500, 900]:
+        driver.go_to(pos, 0)
+        print(driver.pos)
+        print(driver.pos_history)
+
+    driver.set_origin(900)
+    print(driver.rel_pos)
+
+    driver.go_to(100, 10)
+    print(driver.pos)
+
+    print(&#34;multi-drivers&#34;)
+
+    drivers = GalvoDrivers(
+        axis=(&#34;x&#34;, &#34;z&#34;),
+        dac_name={&#34;x&#34;: &#34;DAC0&#34;, &#34;z&#34;: &#34;DAC1&#34;},
+        pos_init={&#34;x&#34;: 0, &#34;z&#34;: 0},
+        open_labjack=False
+    )
+
+    drivers.go_to(x=100, z=300, speed=0)
+    print(drivers.pos)
+    print(drivers.pos_history)
+    print(drivers.rel_pos)
+    print(drivers.origin)
+
+    drivers.set_origin(x=300, z=1000)
+    print(drivers.pos)
+    print(drivers.origin)
+
+    drivers.go_to(x=1000, z=3000, speed=0)
+    print(drivers.pos)
+    print(drivers.origin)
+
+    drivers.reset_pos()
+    print(drivers.pos)
+    print(drivers.origin)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="Galvo.GalvoDriver"><code class="flex name class">
+<span>class <span class="ident">GalvoDriver</span></span>
+<span>(</span><span>axis, dac_name, pos_init=0, open_labjack=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Interface to Thorlabs galvo driver controlling a single axis mirror</p>
+<p>Currently only supports use with LabJack.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>axis</code></strong> :&ensp;<code>str</code></dt>
+<dd>Axis that the Galvo driver is controlling. Either "x" or "z"</dd>
+<dt><strong><code>dac_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>DAC output register name for LabJack</dd>
+<dt><strong><code>pos_init</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>Initial position to set the mirror in microns</dd>
+<dt><strong><code>open_labjack</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>[description], by default False</dd>
+<dt>=== UNUSED ===</dt>
+<dt><strong><code>V_per_deg</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>Input voltage per degree moved. Controlled by the JP7 pin on the board (Fig 3.13 in the manual).
+The default is 0.5 but other valid options are 1
+or 0.8</dd>
+<dt><strong><code>beam_diameter</code></strong> :&ensp;<code>int</code> or <code>float</code>, optional</dt>
+<dd>The input beam diameter in millimetres. The default is 8.</dd>
+<dt><strong><code>TODO</code></strong> :&ensp;<code>add a logger?</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>TODO</code></strong> :&ensp;<code>limiting inputs</code></dt>
+<dd>&nbsp;</dd>
+</dl>
+<p>Inits a GalvoDriver object.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class GalvoDriver:
+    &#34;&#34;&#34;
+    Interface to Thorlabs galvo driver controlling a single axis mirror
+
+    Currently only supports use with LabJack.
+
+    Parameters
+    ----------
+    axis : str
+        Axis that the Galvo driver is controlling. Either &#34;x&#34; or &#34;z&#34;
+    dac_name : str
+        DAC output register name for LabJack
+    pos_init : float, optional
+        Initial position to set the mirror in microns
+    open_labjack : bool, optional
+        [description], by default False
+
+    === UNUSED ===
+    V_per_deg : float, optional
+        Input voltage per degree moved. Controlled by the JP7 pin on the board (Fig 3.13 in the manual).
+        The default is 0.5 but other valid options are 1  or 0.8
+    beam_diameter : int or float, optional
+        The input beam diameter in millimetres. The default is 8.
+
+    TODO: add a logger?
+    TODO: limiting inputs
+    &#34;&#34;&#34;
+    def __init__(self, axis, dac_name, pos_init=0, open_labjack=False):
+        &#34;&#34;&#34;Inits a GalvoDriver object.&#34;&#34;&#34;
+        # if V_per_deg not in SCALING:
+        #     raise ValueError(&#34;{0} is not a valid volts / degree scaling option must be in {1}.&#34;.format(
+        #         V_per_deg, SCALING))
+
+        if axis not in [&#34;x&#34;, &#34;z&#34;]:
+            raise ValueError(&#34;axis should be either &#39;x&#39; (parallel to surface of rod) or &#39;z&#39; (radially away from rod)&#34;)
+
+        self.axis = axis                    # axis of the galvo mirror the driver is controlling
+        self.dac_name = dac_name
+        # self.scaling = V_per_deg * 180 / np.pi          # volts / degree scaling set on the GalvoDriver card, converted to radians
+
+        self.open_labjack = open_labjack
+
+        self.__point = Point(self.axis, pos_init)      # must initialise for point adding later
+        self._point_history = [Point(self.axis, pos_init)]
+
+        self.set_origin(pos_init)
+        self.go_to(pos_init, 0)
+
+    @property
+    def pos(self) -&gt; float:
+        &#34;&#34;&#34;Return the absolute position of the Galvo mirror in μm.&#34;&#34;&#34;
+        return self._pos
+
+    @property
+    def rel_pos(self) -&gt; float:
+        &#34;&#34;&#34;Return the relative position to the origin in μm.&#34;&#34;&#34;
+        return self._rel_point.pos
+
+    @property
+    def pos_history(self) -&gt; list:
+        &#34;&#34;&#34;Return the history of absolute positions in μm.&#34;&#34;&#34;
+        return [pnt.pos for pnt in self._point_history]
+
+    def reset_pos(self):
+        &#34;&#34;&#34;Immediately reset position to origin.&#34;&#34;&#34;
+        self.go_to(0, 0)
+
+    @property
+    def origin(self) -&gt; float:
+        &#34;&#34;&#34;Return the origin of galvo mirror in μm.&#34;&#34;&#34;
+        return self._origin.pos
+
+    def set_origin(self, orig: float=None):
+        &#34;&#34;&#34;
+        Set the origin of galvo mirror given a position in μm.
+
+        The origin is set to absolute 0 μm if no arguments are passed.
+
+        Parameters
+        ----------
+        orig : float
+            Position in μm, by default None which sets the origin to 0 μm.
+
+        Notes
+        -----
+        Not using setter decorators as using dictionary argument inputs is not
+        aesthetically pleasing
+        &#34;&#34;&#34;
+        if orig is None:
+            self._origin = self._point
+        else:
+            self._origin = Point(self.axis, orig)
+
+    def reset_origin(self):
+        &#34;&#34;&#34;Reset the origin to 0 μm without changing position.&#34;&#34;&#34;
+        self.set_origin(0)
+
+    def go_to(self, new_pos: float, speed: float):
+        &#34;&#34;&#34;
+        Go to relative position in μm from current position at μm/s.
+
+        If speed &gt; 0 μm/s then streams the position.
+
+        Parameters
+        ----------
+        new_pos : float
+            New position from origin in μm.
+        speed : float
+            Speed in μm/s.
+
+        Returns
+        -------
+        tuple
+            1 - position in μm of the mirror, calculated from reading the DAC.
+            2 - time in s of movement given by the streaming statistics.
+
+        Raises
+        ------
+        KeyboardInterrupt
+            Moving stopped by user.
+        &#34;&#34;&#34;
+        new_pos = new_pos + self.origin
+
+        # move contains all bits between the two position
+        move = Move(self.axis, self.pos, new_pos, speed)
+
+        # movement with labjack, for other DAQs write another conditional
+        if self.open_labjack:
+            with self.open_labjack:
+                # second condition of move.t == 0 is used when pos_init and pos_final are the same
+                # but speed &gt; 0 resulting in trying to stream when you can&#39;t
+                if speed == 0 or move.t == 0:
+                    # Updating DAC#_BINARY with bit of closest position
+                    actual_t = 0
+                    actual_V = self.open_labjack.updater.update(move.bits[-1])
+                else:
+                    self.open_labjack.streamer.stream_setup()
+                    self.open_labjack.streamer.load_data(move.bits, &#34;int&#34;)
+                    actual_t = self.open_labjack.streamer.start_stream(move.t)
+                    actual_V = self.open_labjack.updater.read()
+
+            # reads the position (transformed from the voltage) where the mirror
+            # is stopped
+            # Also, within Streamer.start_stream sleeping occurs that blocks/holds execution
+            # until the full stream has occurred, only then is the KeyboardInterrupt signal
+            # handled
+            # TODO: run laser and this on separate stream to be able to shutdown one immediately
+            try:
+                actual_V
+            except NameError:
+                # using new_pos because the stream is blocked until it&#39;s finished
+                self._pos = new_pos
+                actual_point = Point(self.axis, new_pos)
+            else:
+                actual_point = Point(self.axis, voltage=actual_V[self.dac_name])
+
+            try:
+                actual_t
+            except NameError:
+                actual_t = move.t
+
+            # TODO: Might need to raise KeyboardInterrupt here?
+        else:
+            self._pos = new_pos
+            actual_t = 0
+            actual_point = Point(self.axis, self.pos)
+
+        return actual_point.pos, actual_t
+
+        # if self.open_labjack:
+            # try:
+            #     # second condition of move.t == 0 is used when pos_init and pos_final are the same
+            #     # but speed &gt; 0 resulting in trying to stream when you can&#39;t
+            #     if speed == 0 or move.t == 0:
+            #         # Updating DAC#_BINARY with bit of closest position
+            #         actual_t = 0
+            #         actual_V = self.open_labjack.updater.update(move.bits[-1])
+            #     else:
+            #         # Streaming bits between current position to new position
+            #         self.open_labjack.streamer.stream_setup()
+            #         self.open_labjack.streamer.load_data(move.bits, &#34;int&#34;)
+            #         actual_t = self.open_labjack.streamer.start_stream(move.t)
+            #         actual_V = self.open_labjack.updater.read()
+            # except KeyboardInterrupt:
+            #     # reads the position (transformed from the voltage) where the mirror
+            #     # is stopped
+            #     # Also, within Streamer.start_stream sleeping occurs that blocks/holds execution
+            #     # until the full stream has occurred, only then is the KeyboardInterrupt signal
+            #     # handled
+            #     # TODO: run laser and this on separate stream to be able to shutdown one immediately
+            #     # TODO: context handler for lase
+            #     # self.open_labjack.streamer.stop_stream()
+            #     try:
+            #         actual_V
+            #     except NameError:
+            #         actual_V = self.open_labjack.updater.read()
+
+            #     try:
+            #         actual_t
+            #     except NameError:
+            #         actual_t = move.t
+            #     # using the stopped voltage to set the galvo position, even though this is the same
+            #     # as new_pos as streaming is blocked until it finishes
+            #     self._voltage = actual_V[self.dac_name]
+            #     print(&#34;Stopping at {0} = {1}um!&#34;.format(self.axis, self.pos))
+            #     # need to raise KeyboardInterrupt so that calling program above the stack can
+            #     # also stop other processes
+            #     raise KeyboardInterrupt(&#34;Moving stopped by user!&#34;)
+            # else:
+            #     # directly set private _pos attribute because method converts pos float to Point obj
+            #     self._pos = new_pos
+            # finally:
+            #     actual_point = Point(self.axis, voltage=actual_V[self.dac_name])
+        # else:
+        #     self._pos = new_pos
+        #     actual_t = 0
+        #     actual_point = Point(self.axis, self.pos)
+
+        # return actual_point.pos, actual_t
+
+    #=======================================================
+    # PRIVATE METHODS
+    #=======================================================
+
+    @property
+    def _rel_point(self):
+        &#34;&#34;&#34;Return Point object relative to the origin.&#34;&#34;&#34;
+        return self._point - self._origin
+
+    @property
+    def _point(self):
+        &#34;&#34;&#34;Return absolute Point object.&#34;&#34;&#34;
+        return self.__point
+
+    @_point.setter
+    def _point(self, val):
+        &#34;&#34;&#34;Set the Point object where ``val`` should be a Point object.&#34;&#34;&#34;
+        self._point_history.append(deepcopy(self._point))
+        self.__point = val
+
+    @property
+    def _pos(self):
+        &#34;&#34;&#34;Return absolute position in μm.&#34;&#34;&#34;
+        return self._point.pos
+
+    @_pos.setter
+    def _pos(self, val: float):
+        &#34;&#34;&#34;Set absolute position in μm.&#34;&#34;&#34;
+        self._point = Point(self.axis, val)
+
+    @property
+    def _voltage(self):
+        &#34;&#34;&#34;Return absolute voltage in V.&#34;&#34;&#34;
+        return self._point.voltage
+
+    @_voltage.setter
+    def _voltage(self, val: float):
+        &#34;&#34;&#34;Set absolute voltage in V.&#34;&#34;&#34;
+        self._point = Point(self.axis, voltage=val)
+
+    def _revert_pos(self):
+        &#34;&#34;&#34;
+        Revert to the most recent position, without sending command to DAQ
+
+        UNUSED
+        &#34;&#34;&#34;
+        temp_point = deepcopy(self._point)
+        self._point = deepcopy(self._point_history[-1])
+        self._point_history.append(temp_point)</code></pre>
+</details>
+<h3>Instance variables</h3>
+<dl>
+<dt id="Galvo.GalvoDriver.origin"><code class="name">var <span class="ident">origin</span> : float</code></dt>
+<dd>
+<div class="desc"><p>Return the origin of galvo mirror in μm.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def origin(self) -&gt; float:
+    &#34;&#34;&#34;Return the origin of galvo mirror in μm.&#34;&#34;&#34;
+    return self._origin.pos</code></pre>
+</details>
+</dd>
+<dt id="Galvo.GalvoDriver.pos"><code class="name">var <span class="ident">pos</span> : float</code></dt>
+<dd>
+<div class="desc"><p>Return the absolute position of the Galvo mirror in μm.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def pos(self) -&gt; float:
+    &#34;&#34;&#34;Return the absolute position of the Galvo mirror in μm.&#34;&#34;&#34;
+    return self._pos</code></pre>
+</details>
+</dd>
+<dt id="Galvo.GalvoDriver.pos_history"><code class="name">var <span class="ident">pos_history</span> : list</code></dt>
+<dd>
+<div class="desc"><p>Return the history of absolute positions in μm.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def pos_history(self) -&gt; list:
+    &#34;&#34;&#34;Return the history of absolute positions in μm.&#34;&#34;&#34;
+    return [pnt.pos for pnt in self._point_history]</code></pre>
+</details>
+</dd>
+<dt id="Galvo.GalvoDriver.rel_pos"><code class="name">var <span class="ident">rel_pos</span> : float</code></dt>
+<dd>
+<div class="desc"><p>Return the relative position to the origin in μm.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def rel_pos(self) -&gt; float:
+    &#34;&#34;&#34;Return the relative position to the origin in μm.&#34;&#34;&#34;
+    return self._rel_point.pos</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="Galvo.GalvoDriver.go_to"><code class="name flex">
+<span>def <span class="ident">go_to</span></span>(<span>self, new_pos: float, speed: float)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Go to relative position in μm from current position at μm/s.</p>
+<p>If speed &gt; 0 μm/s then streams the position.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>new_pos</code></strong> :&ensp;<code>float</code></dt>
+<dd>New position from origin in μm.</dd>
+<dt><strong><code>speed</code></strong> :&ensp;<code>float</code></dt>
+<dd>Speed in μm/s.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>tuple</code></dt>
+<dd>1 - position in μm of the mirror, calculated from reading the DAC.
+2 - time in s of movement given by the streaming statistics.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>KeyboardInterrupt</code></dt>
+<dd>Moving stopped by user.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def go_to(self, new_pos: float, speed: float):
+    &#34;&#34;&#34;
+    Go to relative position in μm from current position at μm/s.
+
+    If speed &gt; 0 μm/s then streams the position.
+
+    Parameters
+    ----------
+    new_pos : float
+        New position from origin in μm.
+    speed : float
+        Speed in μm/s.
+
+    Returns
+    -------
+    tuple
+        1 - position in μm of the mirror, calculated from reading the DAC.
+        2 - time in s of movement given by the streaming statistics.
+
+    Raises
+    ------
+    KeyboardInterrupt
+        Moving stopped by user.
+    &#34;&#34;&#34;
+    new_pos = new_pos + self.origin
+
+    # move contains all bits between the two position
+    move = Move(self.axis, self.pos, new_pos, speed)
+
+    # movement with labjack, for other DAQs write another conditional
+    if self.open_labjack:
+        with self.open_labjack:
+            # second condition of move.t == 0 is used when pos_init and pos_final are the same
+            # but speed &gt; 0 resulting in trying to stream when you can&#39;t
+            if speed == 0 or move.t == 0:
+                # Updating DAC#_BINARY with bit of closest position
+                actual_t = 0
+                actual_V = self.open_labjack.updater.update(move.bits[-1])
+            else:
+                self.open_labjack.streamer.stream_setup()
+                self.open_labjack.streamer.load_data(move.bits, &#34;int&#34;)
+                actual_t = self.open_labjack.streamer.start_stream(move.t)
+                actual_V = self.open_labjack.updater.read()
+
+        # reads the position (transformed from the voltage) where the mirror
+        # is stopped
+        # Also, within Streamer.start_stream sleeping occurs that blocks/holds execution
+        # until the full stream has occurred, only then is the KeyboardInterrupt signal
+        # handled
+        # TODO: run laser and this on separate stream to be able to shutdown one immediately
+        try:
+            actual_V
+        except NameError:
+            # using new_pos because the stream is blocked until it&#39;s finished
+            self._pos = new_pos
+            actual_point = Point(self.axis, new_pos)
+        else:
+            actual_point = Point(self.axis, voltage=actual_V[self.dac_name])
+
+        try:
+            actual_t
+        except NameError:
+            actual_t = move.t
+
+        # TODO: Might need to raise KeyboardInterrupt here?
+    else:
+        self._pos = new_pos
+        actual_t = 0
+        actual_point = Point(self.axis, self.pos)
+
+    return actual_point.pos, actual_t</code></pre>
+</details>
+</dd>
+<dt id="Galvo.GalvoDriver.reset_origin"><code class="name flex">
+<span>def <span class="ident">reset_origin</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Reset the origin to 0 μm without changing position.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def reset_origin(self):
+    &#34;&#34;&#34;Reset the origin to 0 μm without changing position.&#34;&#34;&#34;
+    self.set_origin(0)</code></pre>
+</details>
+</dd>
+<dt id="Galvo.GalvoDriver.reset_pos"><code class="name flex">
+<span>def <span class="ident">reset_pos</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Immediately reset position to origin.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def reset_pos(self):
+    &#34;&#34;&#34;Immediately reset position to origin.&#34;&#34;&#34;
+    self.go_to(0, 0)</code></pre>
+</details>
+</dd>
+<dt id="Galvo.GalvoDriver.set_origin"><code class="name flex">
+<span>def <span class="ident">set_origin</span></span>(<span>self, orig: float = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the origin of galvo mirror given a position in μm.</p>
+<p>The origin is set to absolute 0 μm if no arguments are passed.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>orig</code></strong> :&ensp;<code>float</code></dt>
+<dd>Position in μm, by default None which sets the origin to 0 μm.</dd>
+</dl>
+<h2 id="notes">Notes</h2>
+<p>Not using setter decorators as using dictionary argument inputs is not
+aesthetically pleasing</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_origin(self, orig: float=None):
+    &#34;&#34;&#34;
+    Set the origin of galvo mirror given a position in μm.
+
+    The origin is set to absolute 0 μm if no arguments are passed.
+
+    Parameters
+    ----------
+    orig : float
+        Position in μm, by default None which sets the origin to 0 μm.
+
+    Notes
+    -----
+    Not using setter decorators as using dictionary argument inputs is not
+    aesthetically pleasing
+    &#34;&#34;&#34;
+    if orig is None:
+        self._origin = self._point
+    else:
+        self._origin = Point(self.axis, orig)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="Galvo.GalvoDrivers"><code class="flex name class">
+<span>class <span class="ident">GalvoDrivers</span></span>
+<span>(</span><span>axis, dac_name: dict, pos_init: dict, open_labjack=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Combines multiple Thorlabs galvo drivers to simultaneously control them.</p>
+<p>Only supports use with LabJack.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>axis</code></strong> :&ensp;<code>iterable</code> of <code>str</code></dt>
+<dd>Multiple axes of Galvo drivers to control simultaneously</dd>
+<dt><strong><code>dac_name</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Dict of DAC output register names for LabJack for each axis</dd>
+<dt><strong><code>pos_init</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Dict of initial positions to set the mirror of each axis in microns</dd>
+<dt><strong><code>open_labjack</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>LabJack object if it is connected physically, by default False.
+Make sure to add Updater and Streamer to LabJack object that have matching
+input and output registers</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>KeyError</code></dt>
+<dd>dac_name dict keys doesn't match the input axis</dd>
+<dt><code>KeyError</code></dt>
+<dd>pos_init dict keys doesn't match the input axis</dd>
+</dl>
+<p>Inits a GalvoDrivers object.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class GalvoDrivers:
+    &#34;&#34;&#34;
+    Combines multiple Thorlabs galvo drivers to simultaneously control them.
+
+    Only supports use with LabJack.
+
+    Parameters
+    ----------
+    axis : iterable of str
+        Multiple axes of Galvo drivers to control simultaneously
+    dac_name : dict
+        Dict of DAC output register names for LabJack for each axis
+    pos_init : dict
+        Dict of initial positions to set the mirror of each axis in microns
+    open_labjack : bool, optional
+        LabJack object if it is connected physically, by default False.
+        Make sure to add Updater and Streamer to LabJack object that have matching
+        input and output registers
+
+    Raises
+    ------
+    KeyError
+        dac_name dict keys doesn&#39;t match the input axis
+    KeyError
+        pos_init dict keys doesn&#39;t match the input axis
+    &#34;&#34;&#34;
+    def __init__(self, axis, dac_name: dict, pos_init: dict, open_labjack=False):
+        &#34;&#34;&#34;Inits a GalvoDrivers object.&#34;&#34;&#34;
+        self.axis = axis
+
+        for ax in self.axis:
+            try:
+                dac_name[ax]
+            except KeyError:
+                raise KeyError(&#34;Input dac_name axes is missing &#39;{0}&#39;-axis&#34;.format(ax))
+
+            try:
+                pos_init[ax]
+            except KeyError:
+                raise KeyError(&#34;Input pos_init axes is missing &#39;{0}&#39;-axis&#34;.format(ax))
+
+        self.dac_name = dac_name
+        self.open_labjack = open_labjack
+
+        self._galvos = {}
+        for ax in self.axis:
+            # using the Galvo objects for the axes as storage for points rather than
+            # sending labjack/DAQ commands through them
+            self._galvos[ax] = GalvoDriver(ax, self.dac_name[ax], pos_init=pos_init[ax], open_labjack=False)
+
+        self.go_to(**pos_init, speed=0)
+
+    @property
+    def pos(self) -&gt; dict:
+        &#34;&#34;&#34;Return absolute positions for all stored 1D galvos in μm.&#34;&#34;&#34;
+        _pos = {}
+        for ax in self.axis:
+            _pos[ax] = self._galvos[ax].pos
+        return _pos
+
+    @property
+    def rel_pos(self) -&gt; dict:
+        &#34;&#34;&#34;Return relative positions for all stored 1D galvos in μm.&#34;&#34;&#34;
+        _rel_pos = {}
+        for ax in self.axis:
+            _rel_pos[ax] = self._galvos[ax].rel_pos
+        return _rel_pos
+
+    @property
+    def pos_history(self) -&gt; dict:
+        &#34;&#34;&#34;Return absolute position history for all stored 1D galvos.&#34;&#34;&#34;
+        _pos_history = {}
+        for ax in self.axis:
+            _pos_history[ax] = self._galvos[ax].pos_history
+        return _pos_history
+
+    def reset_pos(self):
+        &#34;&#34;&#34;Reset the relative positions of all stored 1D galvos to 0 μm.&#34;&#34;&#34;
+        rst_pos = {}
+        for ax in self.axis:
+            rst_pos[ax] = 0
+
+        self.go_to(speed=0, **rst_pos)
+
+    @property
+    def origin(self) -&gt; dict:
+        &#34;&#34;&#34;Return origin for all stored 1D galvos in μm.&#34;&#34;&#34;
+        _origin = {}
+        for ax in self.axis:
+            _origin[ax] = (self._galvos[ax].origin)
+        return _origin
+
+    def set_origin(self, **orig):
+        &#34;&#34;&#34;
+        Set the origin of all stored 1D Galvos in μm.
+
+        Named arguments have the form ``{axis_name: origin}``.
+
+        Parameters
+        ----------
+        orig : optional, {axis_name: origin}
+            Origin in μm for each galvo axis.
+        &#34;&#34;&#34;
+        for ax in self.axis:
+            if not orig:
+                self._galvos[ax].set_origin()
+            else:
+                try:
+                    self._galvos[ax].set_origin(orig[ax])
+                except KeyError:
+                    print(&#34;Axis &#39;{0}&#39; not found in input choices, it remains unchanged&#34;)
+
+    def reset_origin(self):
+        &#34;&#34;&#34;Set the origin of all stored 1D galvos to 0 μm.&#34;&#34;&#34;
+        for ax in self.axis:
+            self._galvos[ax].set_origin(0)
+
+    def go_to(self, speed: float=0, **new_pos) -&gt; tuple:
+        &#34;&#34;&#34;
+        Go to input relative positions in μm input speed in μm/s for all axes.
+
+        Input speed is the same for each axis. For example with 2 axes, if one
+        axis is moving a larger distance, then the other axis will finish
+        before the longer distance is finished.
+
+        If speed &gt; 0 μm/s then labjack streams.
+
+        Parameters
+        ----------
+        speed : float, optional
+            Speed in μm/s, by default 0 μm/s.
+        new_pos : optional, {axis_name: new_pos}
+            New position from origin in μm, by default no movement for given
+            axis.
+
+        Returns
+        -------
+        tuple
+            1 - a dict, with the actual position of all 1D galvos,
+            2 - the actual time of movement in s given by the DAQ.
+
+        Raises
+        ------
+        KeyboardInterrupt
+            Moving stopped by user.
+        &#34;&#34;&#34;
+        # use stored 1D galvos to calculate the new absolute position for each axis
+        original_pos = self.pos
+        new_abs_pos = {}
+        for ax in self.axis:
+            new_abs_pos[ax] = self._galvos[ax].go_to(new_pos[ax], speed)[0]
+
+        move = MoveMultiDim(self.axis, original_pos, new_abs_pos, speed)
+
+        if self.open_labjack:
+            with self.open_labjack:
+                if speed == 0 or move.t == 0:
+                    # Updater wants a tuple of values matching the number of write registers
+                    move_bits = tuple([mb[-1] for mb in tuple(move.bits.values())])
+                    actual_t = 0
+                    actual_V = self.open_labjack.updater.update(move_bits)
+                else:
+                    # movement bits for each axis
+                    move_bits = tuple(move.bits.values())
+                    self.open_labjack.streamer.stream_setup()
+                    self.open_labjack.streamer.load_data(move_bits, &#34;int&#34;)
+                    actual_t = self.open_labjack.streamer.start_stream(move.t)
+                    actual_V = self.open_labjack.updater.read()
+
+            try:
+                actual_V
+            except NameError:
+                # stored galvos already have their positions set to the new position
+                actual_V = self.open_labjack.updater.read()
+                stopped_pos = []
+                for ax in self.axis:
+                    self._galvos[ax].voltage = actual_V[self._galvos[ax].dac_name]
+                    stopped_pos.append(str(self._galvos[ax].pos))
+            finally:
+                actual_pos = {}
+                for ax in self.axis:
+                    actual_pos[ax] = Point(ax, voltage=actual_V[self._galvos[ax].dac_name]).pos
+
+            try:
+                actual_t
+            except NameError:
+                actual_t = move.t
+
+            # TODO: Might need to raise KeyboardInterrupt here?
+        else:
+            # no connected DAQs
+            actual_t = 0
+            actual_pos = {}
+            for ax in self.axis:
+                actual_pos[ax] = Point(ax, new_pos[ax]).pos
+
+        return actual_pos, actual_t</code></pre>
+</details>
+<h3>Instance variables</h3>
+<dl>
+<dt id="Galvo.GalvoDrivers.origin"><code class="name">var <span class="ident">origin</span> : dict</code></dt>
+<dd>
+<div class="desc"><p>Return origin for all stored 1D galvos in μm.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def origin(self) -&gt; dict:
+    &#34;&#34;&#34;Return origin for all stored 1D galvos in μm.&#34;&#34;&#34;
+    _origin = {}
+    for ax in self.axis:
+        _origin[ax] = (self._galvos[ax].origin)
+    return _origin</code></pre>
+</details>
+</dd>
+<dt id="Galvo.GalvoDrivers.pos"><code class="name">var <span class="ident">pos</span> : dict</code></dt>
+<dd>
+<div class="desc"><p>Return absolute positions for all stored 1D galvos in μm.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def pos(self) -&gt; dict:
+    &#34;&#34;&#34;Return absolute positions for all stored 1D galvos in μm.&#34;&#34;&#34;
+    _pos = {}
+    for ax in self.axis:
+        _pos[ax] = self._galvos[ax].pos
+    return _pos</code></pre>
+</details>
+</dd>
+<dt id="Galvo.GalvoDrivers.pos_history"><code class="name">var <span class="ident">pos_history</span> : dict</code></dt>
+<dd>
+<div class="desc"><p>Return absolute position history for all stored 1D galvos.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def pos_history(self) -&gt; dict:
+    &#34;&#34;&#34;Return absolute position history for all stored 1D galvos.&#34;&#34;&#34;
+    _pos_history = {}
+    for ax in self.axis:
+        _pos_history[ax] = self._galvos[ax].pos_history
+    return _pos_history</code></pre>
+</details>
+</dd>
+<dt id="Galvo.GalvoDrivers.rel_pos"><code class="name">var <span class="ident">rel_pos</span> : dict</code></dt>
+<dd>
+<div class="desc"><p>Return relative positions for all stored 1D galvos in μm.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def rel_pos(self) -&gt; dict:
+    &#34;&#34;&#34;Return relative positions for all stored 1D galvos in μm.&#34;&#34;&#34;
+    _rel_pos = {}
+    for ax in self.axis:
+        _rel_pos[ax] = self._galvos[ax].rel_pos
+    return _rel_pos</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="Galvo.GalvoDrivers.go_to"><code class="name flex">
+<span>def <span class="ident">go_to</span></span>(<span>self, speed: float = 0, **new_pos) ‑> tuple</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Go to input relative positions in μm input speed in μm/s for all axes.</p>
+<p>Input speed is the same for each axis. For example with 2 axes, if one
+axis is moving a larger distance, then the other axis will finish
+before the longer distance is finished.</p>
+<p>If speed &gt; 0 μm/s then labjack streams.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>speed</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>Speed in μm/s, by default 0 μm/s.</dd>
+<dt><strong><code>new_pos</code></strong> :&ensp;<code>optional, {axis_name: new_pos}</code></dt>
+<dd>New position from origin in μm, by default no movement for given
+axis.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>tuple</code></dt>
+<dd>1 - a dict, with the actual position of all 1D galvos,
+2 - the actual time of movement in s given by the DAQ.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>KeyboardInterrupt</code></dt>
+<dd>Moving stopped by user.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def go_to(self, speed: float=0, **new_pos) -&gt; tuple:
+    &#34;&#34;&#34;
+    Go to input relative positions in μm input speed in μm/s for all axes.
+
+    Input speed is the same for each axis. For example with 2 axes, if one
+    axis is moving a larger distance, then the other axis will finish
+    before the longer distance is finished.
+
+    If speed &gt; 0 μm/s then labjack streams.
+
+    Parameters
+    ----------
+    speed : float, optional
+        Speed in μm/s, by default 0 μm/s.
+    new_pos : optional, {axis_name: new_pos}
+        New position from origin in μm, by default no movement for given
+        axis.
+
+    Returns
+    -------
+    tuple
+        1 - a dict, with the actual position of all 1D galvos,
+        2 - the actual time of movement in s given by the DAQ.
+
+    Raises
+    ------
+    KeyboardInterrupt
+        Moving stopped by user.
+    &#34;&#34;&#34;
+    # use stored 1D galvos to calculate the new absolute position for each axis
+    original_pos = self.pos
+    new_abs_pos = {}
+    for ax in self.axis:
+        new_abs_pos[ax] = self._galvos[ax].go_to(new_pos[ax], speed)[0]
+
+    move = MoveMultiDim(self.axis, original_pos, new_abs_pos, speed)
+
+    if self.open_labjack:
+        with self.open_labjack:
+            if speed == 0 or move.t == 0:
+                # Updater wants a tuple of values matching the number of write registers
+                move_bits = tuple([mb[-1] for mb in tuple(move.bits.values())])
+                actual_t = 0
+                actual_V = self.open_labjack.updater.update(move_bits)
+            else:
+                # movement bits for each axis
+                move_bits = tuple(move.bits.values())
+                self.open_labjack.streamer.stream_setup()
+                self.open_labjack.streamer.load_data(move_bits, &#34;int&#34;)
+                actual_t = self.open_labjack.streamer.start_stream(move.t)
+                actual_V = self.open_labjack.updater.read()
+
+        try:
+            actual_V
+        except NameError:
+            # stored galvos already have their positions set to the new position
+            actual_V = self.open_labjack.updater.read()
+            stopped_pos = []
+            for ax in self.axis:
+                self._galvos[ax].voltage = actual_V[self._galvos[ax].dac_name]
+                stopped_pos.append(str(self._galvos[ax].pos))
+        finally:
+            actual_pos = {}
+            for ax in self.axis:
+                actual_pos[ax] = Point(ax, voltage=actual_V[self._galvos[ax].dac_name]).pos
+
+        try:
+            actual_t
+        except NameError:
+            actual_t = move.t
+
+        # TODO: Might need to raise KeyboardInterrupt here?
+    else:
+        # no connected DAQs
+        actual_t = 0
+        actual_pos = {}
+        for ax in self.axis:
+            actual_pos[ax] = Point(ax, new_pos[ax]).pos
+
+    return actual_pos, actual_t</code></pre>
+</details>
+</dd>
+<dt id="Galvo.GalvoDrivers.reset_origin"><code class="name flex">
+<span>def <span class="ident">reset_origin</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the origin of all stored 1D galvos to 0 μm.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def reset_origin(self):
+    &#34;&#34;&#34;Set the origin of all stored 1D galvos to 0 μm.&#34;&#34;&#34;
+    for ax in self.axis:
+        self._galvos[ax].set_origin(0)</code></pre>
+</details>
+</dd>
+<dt id="Galvo.GalvoDrivers.reset_pos"><code class="name flex">
+<span>def <span class="ident">reset_pos</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Reset the relative positions of all stored 1D galvos to 0 μm.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def reset_pos(self):
+    &#34;&#34;&#34;Reset the relative positions of all stored 1D galvos to 0 μm.&#34;&#34;&#34;
+    rst_pos = {}
+    for ax in self.axis:
+        rst_pos[ax] = 0
+
+    self.go_to(speed=0, **rst_pos)</code></pre>
+</details>
+</dd>
+<dt id="Galvo.GalvoDrivers.set_origin"><code class="name flex">
+<span>def <span class="ident">set_origin</span></span>(<span>self, **orig)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the origin of all stored 1D Galvos in μm.</p>
+<p>Named arguments have the form <code>{axis_name: origin}</code>.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>orig</code></strong> :&ensp;<code>optional, {axis_name: origin}</code></dt>
+<dd>Origin in μm for each galvo axis.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_origin(self, **orig):
+    &#34;&#34;&#34;
+    Set the origin of all stored 1D Galvos in μm.
+
+    Named arguments have the form ``{axis_name: origin}``.
+
+    Parameters
+    ----------
+    orig : optional, {axis_name: origin}
+        Origin in μm for each galvo axis.
+    &#34;&#34;&#34;
+    for ax in self.axis:
+        if not orig:
+            self._galvos[ax].set_origin()
+        else:
+            try:
+                self._galvos[ax].set_origin(orig[ax])
+            except KeyError:
+                print(&#34;Axis &#39;{0}&#39; not found in input choices, it remains unchanged&#34;)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="Galvo.Move"><code class="flex name class">
+<span>class <span class="ident">Move</span></span>
+<span>(</span><span>axis: str, pos_init: float, pos_final: float, speed: float)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Determines a sequence of bits between two points in space given an
+initial and final position.</p>
+<p>Also determines the time in seconds required to step through the bit
+sequence.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>axis</code></strong> :&ensp;<code>str</code></dt>
+<dd>Coordinate or axis of movement.</dd>
+<dt><strong><code>pos_init</code></strong> :&ensp;<code>float</code></dt>
+<dd>Init position in μm.</dd>
+<dt><strong><code>pos_final</code></strong> :&ensp;<code>float</code></dt>
+<dd>Final position in μm.</dd>
+<dt><strong><code>speed</code></strong> :&ensp;<code>float</code></dt>
+<dd>Speed in μm/s.</dd>
+</dl>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>t</code></strong></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>bits</code></strong></dt>
+<dd>&nbsp;</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; move = Move(&quot;x&quot;, 1000, 2000, 100)
+&gt;&gt;&gt; move.t
+&gt;&gt;&gt; move.bits
+</code></pre>
+<p>Inits a Move object.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Move():
+    &#34;&#34;&#34;
+    Determines a sequence of bits between two points in space given an
+    initial and final position.
+
+    Also determines the time in seconds required to step through the bit
+    sequence.
+
+    Parameters
+    ----------
+    axis : str
+        Coordinate or axis of movement.
+    pos_init : float
+        Init position in μm.
+    pos_final : float
+        Final position in μm.
+    speed : float
+        Speed in μm/s.
+
+    Attributes
+    ----------
+    t
+    bits
+
+    Examples
+    --------
+    &gt;&gt;&gt; move = Move(&#34;x&#34;, 1000, 2000, 100)
+    &gt;&gt;&gt; move.t
+    &gt;&gt;&gt; move.bits
+    &#34;&#34;&#34;
+    def __init__(
+        self, axis: str, pos_init: float, pos_final: float, speed: float):
+        &#34;&#34;&#34;Inits a Move object.&#34;&#34;&#34;
+        self._axis = axis
+        self._point_init = Point(axis, pos_init)
+        self._point_final = Point(axis, pos_final)
+        self._speed = speed
+
+    @property
+    def t(self) -&gt; float:
+        &#34;&#34;&#34;Return movement time in seconds, if speed=0μm/s then t=0s.&#34;&#34;&#34;
+        try:
+            _t = abs(self._point_init.pos - self._point_final.pos) / self._speed
+        except ZeroDivisionError:
+            _t = 0
+        return _t
+
+    @property
+    def bits(self) -&gt; np.array:
+        &#34;&#34;&#34;
+        Return array of bits for every point between initial and final.
+
+        Returns
+        -------
+        array of ints
+
+        Notes
+        -----
+        If speed=0μm/s, return array of length 1.
+        &#34;&#34;&#34;
+        if self._point_init.bit &lt; self._point_final.bit:
+            bin_steps = np.arange(
+                self._point_init.bit, self._point_final.bit + 1, DAC_SET_BITS
+                )
+        else:
+            # if point_init is greater than point_final, then switch np.arange
+            # start and stop then reverse array
+            bin_steps = np.arange(
+                self._point_final.bit, self._point_init.bit + 1, DAC_SET_BITS
+                )[::-1]
+        return bin_steps
+
+    @staticmethod
+    def speed_limits(spd: float) -&gt; float:
+        &#34;&#34;&#34;
+        Limits an input speed (in μm/s) to between 0 and 10k μm/s.
+
+        Parameters
+        ----------
+        spd : float
+            Speed in μm/s.
+
+        Returns
+        -------
+        float
+        &#34;&#34;&#34;
+        if spd &lt; 0:
+            return 0
+        elif spd &gt; MAX_SPEED:
+            return MAX_SPEED
+        else:
+            return spd</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="Galvo.Move.speed_limits"><code class="name flex">
+<span>def <span class="ident">speed_limits</span></span>(<span>spd: float) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Limits an input speed (in μm/s) to between 0 and 10k μm/s.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>spd</code></strong> :&ensp;<code>float</code></dt>
+<dd>Speed in μm/s.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def speed_limits(spd: float) -&gt; float:
+    &#34;&#34;&#34;
+    Limits an input speed (in μm/s) to between 0 and 10k μm/s.
+
+    Parameters
+    ----------
+    spd : float
+        Speed in μm/s.
+
+    Returns
+    -------
+    float
+    &#34;&#34;&#34;
+    if spd &lt; 0:
+        return 0
+    elif spd &gt; MAX_SPEED:
+        return MAX_SPEED
+    else:
+        return spd</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="Galvo.Move.bits"><code class="name">var <span class="ident">bits</span> : <built-in function array></code></dt>
+<dd>
+<div class="desc"><p>Return array of bits for every point between initial and final.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>array</code> of <code>ints</code></dt>
+<dd>&nbsp;</dd>
+</dl>
+<h2 id="notes">Notes</h2>
+<p>If speed=0μm/s, return array of length 1.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def bits(self) -&gt; np.array:
+    &#34;&#34;&#34;
+    Return array of bits for every point between initial and final.
+
+    Returns
+    -------
+    array of ints
+
+    Notes
+    -----
+    If speed=0μm/s, return array of length 1.
+    &#34;&#34;&#34;
+    if self._point_init.bit &lt; self._point_final.bit:
+        bin_steps = np.arange(
+            self._point_init.bit, self._point_final.bit + 1, DAC_SET_BITS
+            )
+    else:
+        # if point_init is greater than point_final, then switch np.arange
+        # start and stop then reverse array
+        bin_steps = np.arange(
+            self._point_final.bit, self._point_init.bit + 1, DAC_SET_BITS
+            )[::-1]
+    return bin_steps</code></pre>
+</details>
+</dd>
+<dt id="Galvo.Move.t"><code class="name">var <span class="ident">t</span> : float</code></dt>
+<dd>
+<div class="desc"><p>Return movement time in seconds, if speed=0μm/s then t=0s.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def t(self) -&gt; float:
+    &#34;&#34;&#34;Return movement time in seconds, if speed=0μm/s then t=0s.&#34;&#34;&#34;
+    try:
+        _t = abs(self._point_init.pos - self._point_final.pos) / self._speed
+    except ZeroDivisionError:
+        _t = 0
+    return _t</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="Galvo.MoveMultiDim"><code class="flex name class">
+<span>class <span class="ident">MoveMultiDim</span></span>
+<span>(</span><span>axis, pos_init: dict, pos_final: dict, speed: float)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Constant speed movement for multiple dimensions/axes.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>axis</code></strong> :&ensp;<code>iterable</code></dt>
+<dd>Multiple axes for movement.</dd>
+<dt><strong><code>pos_init</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Initial positions in microns for all axes, where key-value is
+axis-position.</dd>
+<dt><strong><code>pos_final</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Final positions in microns for all axes, where key-value is
+axis-position.</dd>
+<dt><strong><code>speed</code></strong> :&ensp;<code>float</code></dt>
+<dd>Speed in both axes in μm/s (not hypotenuse speed).</dd>
+</dl>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>t</code></strong></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>bits</code></strong></dt>
+<dd>&nbsp;</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>TypeError</code></dt>
+<dd>Input axis must be an iterable and not a string</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; move = MoveMultiDim([&quot;x&quot;, &quot;z&quot;], {&quot;x&quot;: 0, &quot;z&quot;: 0}, {&quot;x&quot;: 3000, &quot;z&quot;: 5000}, 1000)
+&gt;&gt;&gt; move.t
+&gt;&gt;&gt; move.bits
+</code></pre>
+<p>Inits a MoveMultiDim object.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class MoveMultiDim():
+    &#34;&#34;&#34;
+    Constant speed movement for multiple dimensions/axes.
+
+    Parameters
+    ----------
+    axis : iterable
+        Multiple axes for movement.
+    pos_init : dict
+        Initial positions in microns for all axes, where key-value is
+        axis-position.
+    pos_final : dict
+        Final positions in microns for all axes, where key-value is
+        axis-position.
+    speed : float
+        Speed in both axes in μm/s (not hypotenuse speed).
+
+    Attributes
+    ----------
+    t
+    bits
+
+    Raises
+    ------
+    TypeError
+        Input axis must be an iterable and not a string
+
+    Examples
+    --------
+    &gt;&gt;&gt; move = MoveMultiDim([&#34;x&#34;, &#34;z&#34;], {&#34;x&#34;: 0, &#34;z&#34;: 0}, {&#34;x&#34;: 3000, &#34;z&#34;: 5000}, 1000)
+    &gt;&gt;&gt; move.t
+    &gt;&gt;&gt; move.bits
+    &#34;&#34;&#34;
+    def __init__(self, axis, pos_init: dict, pos_final: dict, speed: float):
+        &#34;&#34;&#34;Inits a MoveMultiDim object.&#34;&#34;&#34;
+        try:
+            if not isinstance(axis, str):
+                iter(axis)
+            else:
+                raise TypeError
+        except TypeError:
+            raise TypeError(&#34;Argument axes must be an iterable and not a string&#34;)
+        else:
+            self._axis = axis
+        self._speed = speed
+        self._t = 0
+
+        self._moves = {}
+        for ax in self.axis:
+            self._moves[ax] = Move(
+                ax, pos_init[ax], pos_final[ax], self._speed
+                )
+
+            # set movement time to the longest time out of all axes
+            if self._moves[ax].t &gt; self._t:
+                self._t = self._moves[ax].t
+
+    @property
+    def t(self) -&gt; float:
+        &#34;&#34;&#34;Return longest time for movement for all axes in seconds.&#34;&#34;&#34;
+        return self._t
+
+    @property
+    def bits(self) -&gt; dict:
+        &#34;&#34;&#34;Return bit array for all axes.&#34;&#34;&#34;
+        _bits = {}
+        for ax in self.axis:
+            _bits[ax] = self._moves[ax].bits
+        return _bits</code></pre>
+</details>
+<h3>Instance variables</h3>
+<dl>
+<dt id="Galvo.MoveMultiDim.bits"><code class="name">var <span class="ident">bits</span> : dict</code></dt>
+<dd>
+<div class="desc"><p>Return bit array for all axes.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def bits(self) -&gt; dict:
+    &#34;&#34;&#34;Return bit array for all axes.&#34;&#34;&#34;
+    _bits = {}
+    for ax in self.axis:
+        _bits[ax] = self._moves[ax].bits
+    return _bits</code></pre>
+</details>
+</dd>
+<dt id="Galvo.MoveMultiDim.t"><code class="name">var <span class="ident">t</span> : float</code></dt>
+<dd>
+<div class="desc"><p>Return longest time for movement for all axes in seconds.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def t(self) -&gt; float:
+    &#34;&#34;&#34;Return longest time for movement for all axes in seconds.&#34;&#34;&#34;
+    return self._t</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="Galvo.Point"><code class="flex name class">
+<span>class <span class="ident">Point</span></span>
+<span>(</span><span>axis: str, pos: float = None, voltage: float = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A single axis point in space representing beam position directed by Galvo.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>axis</code></strong> :&ensp;<code>str</code></dt>
+<dd>Dimension of the point, related to the Galvo axis.</dd>
+<dt><strong><code>pos</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>Absolute position of the point in μm, by default None.</dd>
+<dt><strong><code>voltage</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>Absolute voltage of the point in Volts, by default None.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>Axis/coordinate has to be either "x" or "z".
+Must have at least either an input position or voltage.</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; p = Point(&quot;x&quot;, pos=1400)
+&gt;&gt;&gt; print(p.pos)
+1399.9999999999998
+&gt;&gt;&gt; print(p.bit)
+58120
+&gt;&gt;&gt; print(p.voltage)
+4.434114793856104
+</code></pre>
+<h2 id="notes">Notes</h2>
+<p>Implementation of a Point in only a single dimension because Points in
+one dimension DOES NOT interact with another dimension except when
+moving the Galvo mirror diagonally (in two dimensions at once).</p>
+<p>TODO: handle different speeds.</p>
+<p>Inits a Point object.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Point():
+    &#34;&#34;&#34;
+    A single axis point in space representing beam position directed by Galvo.
+
+    Parameters
+    ----------
+    axis : str
+        Dimension of the point, related to the Galvo axis.
+    pos : float, optional
+        Absolute position of the point in μm, by default None.
+    voltage : float, optional
+        Absolute voltage of the point in Volts, by default None.
+
+    Raises
+    ------
+    ValueError
+        Axis/coordinate has to be either &#34;x&#34; or &#34;z&#34;.
+        Must have at least either an input position or voltage.
+
+    Examples
+    --------
+    &gt;&gt;&gt; p = Point(&#34;x&#34;, pos=1400)
+    &gt;&gt;&gt; print(p.pos)
+    1399.9999999999998
+    &gt;&gt;&gt; print(p.bit)
+    58120
+    &gt;&gt;&gt; print(p.voltage)
+    4.434114793856104
+
+    Notes
+    -----
+    Implementation of a Point in only a single dimension because Points in
+    one dimension DOES NOT interact with another dimension except when
+    moving the Galvo mirror diagonally (in two dimensions at once).
+
+    TODO: handle different speeds.
+    &#34;&#34;&#34;
+    def __init__(self, axis: str, pos : float=None, voltage: float=None):
+        &#34;&#34;&#34;Inits a Point object.&#34;&#34;&#34;
+        if axis not in [&#34;x&#34;, &#34;z&#34;]:
+            raise ValueError(&#34;Axis should be &#39;x&#39; or &#39;z&#39;.&#34;)
+        if pos == None and voltage == None:
+            raise ValueError(&#34;Either pos or voltage should not be None.&#34;)
+
+        self._axis = axis
+
+        if pos != None:
+            self._pos = self._position_limits(pos)
+            # converting position to voltage
+            self._voltage = self.pos_to_volt(self._axis, self._pos)
+        elif voltage != None:
+            self._voltage = self._voltage_limits(voltage)
+            # converting voltage to position
+            self._pos = self.volt_to_pos(self._axis, self._voltage)
+
+    def __add__(self, other_point):
+        &#34;&#34;&#34;Adds two Points, position and voltage, from the same axis.&#34;&#34;&#34;
+        if self._axis != other_point._axis:
+            raise ValueError(&#34;Adding two points in different axes.&#34;)
+        new_pos = self.pos + other_point.pos
+        return Point(self._axis, pos=new_pos)
+
+    def __sub__(self, other_point):
+        &#34;&#34;&#34;Substracts two Points, position and voltage, from the same axis.&#34;&#34;&#34;
+        if self._axis != other_point._axis:
+            raise ValueError(&#34;Subtracting two points from different axes.&#34;)
+        new_pos = self.pos - other_point.pos
+        return Point(self._axis, pos=new_pos)
+
+    @property
+    def pos(self) -&gt; float:
+        &#34;&#34;&#34;Return position of point in μm.&#34;&#34;&#34;
+        return self._pos
+
+    @property
+    def voltage(self) -&gt; float:
+        &#34;&#34;&#34;Return voltage of point in Volts.&#34;&#34;&#34;
+        return self._voltage
+
+    @property
+    def bit(self) -&gt; int:
+        &#34;&#34;&#34;
+        Return the closest bit corresponding to the closest position.
+
+        Returns
+        -------
+        middle_bit : int
+            Bit corresponding to closest voltage/position to input.
+
+        Notes
+        -----
+        Finding closest bit from voltage with 12 bits of resolution, then
+        increasing the resolution to 16 bits to coarsen by 4 bits before
+        finding the middle bit.
+        &#34;&#34;&#34;
+        # closest bit from voltage in 12bit levels, upshifted to 16bit
+        closest_bit = abs(VOLTAGE_LEVELS - self.voltage).argmin() &lt;&lt; (DAC_SET_BITS - DAC_BITS)
+        # coarsening by 4 bits, and setting to the middle step
+        middle_bit = self._binary_coarsen(closest_bit, DAC_SET_BITS - DAC_BITS)
+        return middle_bit
+
+    @staticmethod
+    def volt_to_pos(axis: str, volt: float) -&gt; float:
+        &#34;&#34;&#34;Return voltage to position conversion.&#34;&#34;&#34;
+        new_pos = (
+            (volt -  POSITION_TO_VOLTAGE[axis][&#34;intercept&#34;])
+            / POSITION_TO_VOLTAGE[axis][&#34;slope&#34;]
+            )
+        return new_pos
+
+    @staticmethod
+    def pos_to_volt(axis: str, pos: float) -&gt; float:
+        &#34;&#34;&#34;Return position to voltage conversion.&#34;&#34;&#34;
+        new_volt = (
+            POSITION_TO_VOLTAGE[axis][&#34;slope&#34;]
+            *(pos + POSITION_CENTRE_CORRECTION[axis])
+            + POSITION_TO_VOLTAGE[axis][&#34;intercept&#34;]
+            )
+        return new_volt
+
+    @staticmethod
+    def _voltage_limits(volt: float) -&gt; float:
+        &#34;&#34;&#34;Return voltages within DAC range limits.&#34;&#34;&#34;
+        if volt &lt; min(DAC_RANGE):
+            return min(DAC_RANGE)
+        elif volt &gt; max(DAC_RANGE):
+            return max(DAC_RANGE)
+        else:
+            return volt
+
+    def _position_limits(self, pos: float) -&gt; float:
+        &#34;&#34;&#34;Return positions within allowed DAC voltage range.&#34;&#34;&#34;
+        set_voltage = self.pos_to_volt(self._axis, pos)
+        set_voltage = self._voltage_limits(set_voltage)
+
+        set_pos = self.volt_to_pos(self._axis, set_voltage)
+        return set_pos
+
+    @staticmethod
+    def _replace_any_bit(val: int, pos: int, new_bit: int) -&gt; int:
+        &#34;&#34;&#34;Replace bit at position (starting at 0) with new bit.
+
+        Helper function for Point._binary_coarsen
+
+        Parameters
+        ----------
+        val : int
+            Integer to have bit replaced.
+        pos : int
+            Position to replace starting at 0 from LSB (right).
+        new_bit : int
+            0 or 1.
+
+        Returns
+        -------
+        replaced : int
+            Integer with changed bit.
+
+        Examples
+        --------
+        &gt;&gt;&gt; Point._replace_any_bit(10, 2, 0)
+        8
+        &#34;&#34;&#34;
+        part1 = val &amp; (~1 &lt;&lt; pos)       # replaces bit at pos with 0
+        part2 = new_bit &lt;&lt; pos          # shifts new_bit to pos
+        replaced = part1 | part2        # replaces 0 with new_bit at pos
+        return replaced
+
+    @staticmethod
+    def _binary_coarsen(val: int, coarsen: int) -&gt; int:
+        &#34;&#34;&#34;Coarsen binary value by any integer amount and set to middle bit.
+
+        Parameters
+        ----------
+        val : int
+            Integer to coarsen, unsigned.
+        coarsen : int
+            Bit value to coarsen by.
+
+        Returns
+        -------
+        val : int
+            Coarsened value.
+
+        Examples
+        --------
+        &gt;&gt;&gt; Point._binary_coarsen(192830999, 4)
+        192831000
+        &#34;&#34;&#34;
+        if coarsen == 4:
+            # special case to coarsen by 4 for speediness
+            # 8 is &#34;1000&#34; in binary
+            coarsened = ((val &gt;&gt; 4) &lt;&lt; 4) | 8
+        else:
+            for k in range(coarsen):
+                if k &lt; (coarsen - 1):
+                    # replace every LSB from coarsen amount by 0
+                    coarsened = Point._replace_any_bit(val, k, 0)
+                else:
+                    # replace coarsen amount pos by 1
+                    coarsened = Point._replace_any_bit(val, k, 1)
+        return coarsened</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="Galvo.Point.pos_to_volt"><code class="name flex">
+<span>def <span class="ident">pos_to_volt</span></span>(<span>axis: str, pos: float) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Return position to voltage conversion.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def pos_to_volt(axis: str, pos: float) -&gt; float:
+    &#34;&#34;&#34;Return position to voltage conversion.&#34;&#34;&#34;
+    new_volt = (
+        POSITION_TO_VOLTAGE[axis][&#34;slope&#34;]
+        *(pos + POSITION_CENTRE_CORRECTION[axis])
+        + POSITION_TO_VOLTAGE[axis][&#34;intercept&#34;]
+        )
+    return new_volt</code></pre>
+</details>
+</dd>
+<dt id="Galvo.Point.volt_to_pos"><code class="name flex">
+<span>def <span class="ident">volt_to_pos</span></span>(<span>axis: str, volt: float) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Return voltage to position conversion.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def volt_to_pos(axis: str, volt: float) -&gt; float:
+    &#34;&#34;&#34;Return voltage to position conversion.&#34;&#34;&#34;
+    new_pos = (
+        (volt -  POSITION_TO_VOLTAGE[axis][&#34;intercept&#34;])
+        / POSITION_TO_VOLTAGE[axis][&#34;slope&#34;]
+        )
+    return new_pos</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="Galvo.Point.bit"><code class="name">var <span class="ident">bit</span> : int</code></dt>
+<dd>
+<div class="desc"><p>Return the closest bit corresponding to the closest position.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>middle_bit</code></strong> :&ensp;<code>int</code></dt>
+<dd>Bit corresponding to closest voltage/position to input.</dd>
+</dl>
+<h2 id="notes">Notes</h2>
+<p>Finding closest bit from voltage with 12 bits of resolution, then
+increasing the resolution to 16 bits to coarsen by 4 bits before
+finding the middle bit.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def bit(self) -&gt; int:
+    &#34;&#34;&#34;
+    Return the closest bit corresponding to the closest position.
+
+    Returns
+    -------
+    middle_bit : int
+        Bit corresponding to closest voltage/position to input.
+
+    Notes
+    -----
+    Finding closest bit from voltage with 12 bits of resolution, then
+    increasing the resolution to 16 bits to coarsen by 4 bits before
+    finding the middle bit.
+    &#34;&#34;&#34;
+    # closest bit from voltage in 12bit levels, upshifted to 16bit
+    closest_bit = abs(VOLTAGE_LEVELS - self.voltage).argmin() &lt;&lt; (DAC_SET_BITS - DAC_BITS)
+    # coarsening by 4 bits, and setting to the middle step
+    middle_bit = self._binary_coarsen(closest_bit, DAC_SET_BITS - DAC_BITS)
+    return middle_bit</code></pre>
+</details>
+</dd>
+<dt id="Galvo.Point.pos"><code class="name">var <span class="ident">pos</span> : float</code></dt>
+<dd>
+<div class="desc"><p>Return position of point in μm.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def pos(self) -&gt; float:
+    &#34;&#34;&#34;Return position of point in μm.&#34;&#34;&#34;
+    return self._pos</code></pre>
+</details>
+</dd>
+<dt id="Galvo.Point.voltage"><code class="name">var <span class="ident">voltage</span> : float</code></dt>
+<dd>
+<div class="desc"><p>Return voltage of point in Volts.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def voltage(self) -&gt; float:
+    &#34;&#34;&#34;Return voltage of point in Volts.&#34;&#34;&#34;
+    return self._voltage</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="Galvo.GalvoDriver" href="#Galvo.GalvoDriver">GalvoDriver</a></code></h4>
+<ul class="two-column">
+<li><code><a title="Galvo.GalvoDriver.go_to" href="#Galvo.GalvoDriver.go_to">go_to</a></code></li>
+<li><code><a title="Galvo.GalvoDriver.origin" href="#Galvo.GalvoDriver.origin">origin</a></code></li>
+<li><code><a title="Galvo.GalvoDriver.pos" href="#Galvo.GalvoDriver.pos">pos</a></code></li>
+<li><code><a title="Galvo.GalvoDriver.pos_history" href="#Galvo.GalvoDriver.pos_history">pos_history</a></code></li>
+<li><code><a title="Galvo.GalvoDriver.rel_pos" href="#Galvo.GalvoDriver.rel_pos">rel_pos</a></code></li>
+<li><code><a title="Galvo.GalvoDriver.reset_origin" href="#Galvo.GalvoDriver.reset_origin">reset_origin</a></code></li>
+<li><code><a title="Galvo.GalvoDriver.reset_pos" href="#Galvo.GalvoDriver.reset_pos">reset_pos</a></code></li>
+<li><code><a title="Galvo.GalvoDriver.set_origin" href="#Galvo.GalvoDriver.set_origin">set_origin</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="Galvo.GalvoDrivers" href="#Galvo.GalvoDrivers">GalvoDrivers</a></code></h4>
+<ul class="two-column">
+<li><code><a title="Galvo.GalvoDrivers.go_to" href="#Galvo.GalvoDrivers.go_to">go_to</a></code></li>
+<li><code><a title="Galvo.GalvoDrivers.origin" href="#Galvo.GalvoDrivers.origin">origin</a></code></li>
+<li><code><a title="Galvo.GalvoDrivers.pos" href="#Galvo.GalvoDrivers.pos">pos</a></code></li>
+<li><code><a title="Galvo.GalvoDrivers.pos_history" href="#Galvo.GalvoDrivers.pos_history">pos_history</a></code></li>
+<li><code><a title="Galvo.GalvoDrivers.rel_pos" href="#Galvo.GalvoDrivers.rel_pos">rel_pos</a></code></li>
+<li><code><a title="Galvo.GalvoDrivers.reset_origin" href="#Galvo.GalvoDrivers.reset_origin">reset_origin</a></code></li>
+<li><code><a title="Galvo.GalvoDrivers.reset_pos" href="#Galvo.GalvoDrivers.reset_pos">reset_pos</a></code></li>
+<li><code><a title="Galvo.GalvoDrivers.set_origin" href="#Galvo.GalvoDrivers.set_origin">set_origin</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="Galvo.Move" href="#Galvo.Move">Move</a></code></h4>
+<ul class="">
+<li><code><a title="Galvo.Move.bits" href="#Galvo.Move.bits">bits</a></code></li>
+<li><code><a title="Galvo.Move.speed_limits" href="#Galvo.Move.speed_limits">speed_limits</a></code></li>
+<li><code><a title="Galvo.Move.t" href="#Galvo.Move.t">t</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="Galvo.MoveMultiDim" href="#Galvo.MoveMultiDim">MoveMultiDim</a></code></h4>
+<ul class="">
+<li><code><a title="Galvo.MoveMultiDim.bits" href="#Galvo.MoveMultiDim.bits">bits</a></code></li>
+<li><code><a title="Galvo.MoveMultiDim.t" href="#Galvo.MoveMultiDim.t">t</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="Galvo.Point" href="#Galvo.Point">Point</a></code></h4>
+<ul class="">
+<li><code><a title="Galvo.Point.bit" href="#Galvo.Point.bit">bit</a></code></li>
+<li><code><a title="Galvo.Point.pos" href="#Galvo.Point.pos">pos</a></code></li>
+<li><code><a title="Galvo.Point.pos_to_volt" href="#Galvo.Point.pos_to_volt">pos_to_volt</a></code></li>
+<li><code><a title="Galvo.Point.volt_to_pos" href="#Galvo.Point.volt_to_pos">volt_to_pos</a></code></li>
+<li><code><a title="Galvo.Point.voltage" href="#Galvo.Point.voltage">voltage</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+</footer>
+</body>
+</html>

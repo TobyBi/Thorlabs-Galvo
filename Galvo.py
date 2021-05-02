@@ -245,8 +245,8 @@ class GalvoDriver:
         return self.__point
 
     @_point.setter
-    def _point(self, val: Point):
-        """Set the Point object."""
+    def _point(self, val):
+        """Set the Point object where ``val`` should be a Point object."""
         self._point_history.append(deepcopy(self._point))
         self.__point = val
 
