@@ -2,7 +2,6 @@
 .. include:: ./README.md
 """
 
-
 import warnings
 import time
 from copy import deepcopy
