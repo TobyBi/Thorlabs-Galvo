@@ -1,6 +1,7 @@
 """
-TODO: Public and private attribute for self.axis where I only write a @property so can only read self.axis and not write
+.. include:: ./README.md
 """
+
 
 import warnings
 import time
@@ -36,6 +37,7 @@ class GalvoDriver:
 
     TODO: add a logger?
     TODO: limiting inputs
+    TODO: Public and private attribute for self.axis where I only write a @property so can only read self.axis and not write
     """
     def __init__(self, axis, dac_name, pos_init=0, open_labjack=False):
         """Inits a GalvoDriver object."""
@@ -46,13 +48,16 @@ class GalvoDriver:
         if axis not in ["x", "z"]:
             raise ValueError("axis should be either 'x' (parallel to surface of rod) or 'z' (radially away from rod)")
 
-        self.axis = axis                    # axis of the galvo mirror the driver is controlling
+         # axis of the galvo mirror the driver is controlling
+        self.axis = axis                   
         self.dac_name = dac_name
-        # self.scaling = V_per_deg * 180 / np.pi          # volts / degree scaling set on the GalvoDriver card, converted to radians
+        # volts / degree scaling set on the GalvoDriver card, converted to radians
+        # self.scaling = V_per_deg * 180 / np.pi
 
         self.open_labjack = open_labjack
 
-        self.__point = Point(self.axis, pos_init)      # must initialise for point adding later
+        # must initialise for point adding later
+        self.__point = Point(self.axis, pos_init)
         self._point_history = [Point(self.axis, pos_init)]
 
         self.set_origin(pos_init)
