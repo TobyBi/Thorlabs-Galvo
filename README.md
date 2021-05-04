@@ -45,6 +45,10 @@ While moving the mirrors using the galvo, the absolute position, relative positi
 
 
 
+Movement using `go_to` is stopped prematurely using a `KeyboardInterrupt`, available from any flavour of interactive terminal.
+
+
+
 More details are given in the [documentation](https://tobybi.github.io/Thorlabs-Galvo/galvo.html).
 
 
