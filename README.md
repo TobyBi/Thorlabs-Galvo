@@ -53,7 +53,7 @@ More details are given in the [documentation](https://tobybi.github.io/Thorlabs-
 
 ### DAC Output
 
-Currently, the output range of DAC is from 0 to 5V and is found in the constant variable `DAC_RANGE` in the `galvo.py` file.
+Currently, the output range of DAC is from 0 to 5V and is found in the constant variable `DAC_RANGE` in the `galvo` file.
 
 ```python
 # Voltage range of the DAC
