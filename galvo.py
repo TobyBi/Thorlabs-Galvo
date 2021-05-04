@@ -12,33 +12,61 @@ SCALING = [0.5, 0.8, 1]
 
 class GalvoDriver:
     """
-    Interface to Thorlabs galvo driver controlling a single axis mirror through a DAC.
+    Interface to Thorlabs galvo driver controlling a single axis mirror through
+    a DAC.
 
-    Currently only supports use with LabJack.
+    Currently, only supports use with a LabJack DAQ, however, other DACs can be
+    added.
 
     Parameters
     ----------
     axis : str
-        Axis that the Galvo driver is controlling. Either "x" or "z"
+        Axis that the Galvo driver is controlling. Either "x" or "z".
     dac_name : str
-        DAC output register name for LabJack
+        DAC output register name for Labjack.
     pos_init : float, optional
-        Initial position to set the mirror in microns
+        Initial position to set the mirror in μm.
     daq : bool, optional, default False
         LabJack object if it is connected physically, by default False.
-        Make sure to add Updater and Streamer to LabJack object that have matching
-        input and output registers
+        Make sure to add Updater and Streamer to LabJack object that have
+        matching input and output registers.
 
     === UNUSED ===
     V_per_deg : float, optional
-        Input voltage per degree moved. Controlled by the JP7 pin on the board (Fig 3.13 in the manual).
-        The default is 0.5 but other valid options are 1  or 0.8
+        Input voltage per degree moved. Controlled by the JP7 pin on the board
+        (Fig 3.13 in the manual).
+        The default is 0.5 but other valid options are 1 or 0.8
     beam_diameter : int or float, optional
         The input beam diameter in millimetres. The default is 8.
 
     TODO: add a logger?
     TODO: limiting inputs
-    TODO: Public and private attribute for self.axis where I only write a @property so can only read self.axis and not write
+    TODO: Public and private attribute for self.axis where I only write a
+            @property so can only read self.axis and not write
+
+    Examples
+    --------
+    >>> galvo = GalvoDriver("x", "DAC0")
+    >>> galvo.set_origin(100)
+    >>> galvo.origin
+    100
+    >>> galvo.go_to(500, 1000)
+
+    Move to x-position 500μm at 1000μm/s.
+
+    >>> galvos.rel_pos
+    600
+    >>> galvos.reset_pos()
+    >>> galvos.pos
+    500
+    >>> galvos.rel_pos
+    0
+    >>> galvos.reset_origin()
+    >>> galvos.origin
+    0
+    >>> galvos.reset_pos()
+    >>> galvos.pos
+    0
     """
     def __init__(self, axis, dac_name, pos_init=0, daq=False):
         """Inits a GalvoDriver object."""
@@ -47,10 +75,11 @@ class GalvoDriver:
         #         V_per_deg, SCALING))
 
         if axis not in ["x", "z"]:
-            raise ValueError("axis should be either 'x' (parallel to surface of rod) or 'z' (radially away from rod)")
+            raise ValueError(
+                "axis should be either 'x' (parallel to surface of rod) or 'z' (radially away from rod)")
 
          # axis of the galvo mirror the driver is controlling
-        self.axis = axis                   
+        self.axis = axis
         self.dac_name = dac_name
         # volts / degree scaling set on the GalvoDriver card, converted to radians
         # self.scaling = V_per_deg * 180 / np.pi
@@ -288,29 +317,67 @@ class GalvoDriver:
 
 class GalvoDrivers:
     """
-    Combines multiple Thorlabs galvo drivers to simultaneously control them.
+    Interface for multiple Thorlabs Galvo drivers to simultaneously control
+    them.
 
-    Only supports use with LabJack.
+    Currently, only supports use with a LabJack DAQ.
+
+    The configuration only tested with:
+        - axis = ["x", "z"]
+        - dac_name = {"x": "DACO", "z": "DAC1"}
+        - pos_init = {"x": 0, "z": 0}
+        - daq = LabJackDaq
 
     Parameters
     ----------
     axis : iterable of str
-        Multiple axes of Galvo drivers to control simultaneously
+        Axis names of Galvo drivers to control simultaneously. Only supports
+        "x" and "z" for now.
     dac_name : dict
-        Dict of DAC output register names for LabJack for each axis
+        Dict of DAC output register names for LabJack for each axis as the key.
+        Only supports "DAC0" and "DAC1".
     pos_init : dict
-        Dict of initial positions to set the mirror of each axis in microns
+        Dict of initial positions to set the mirror of each axis in μm. The
+        axis is the dict key.
     daq : bool, optional
         LabJack object if it is connected physically, by default False.
-        Make sure to add Updater and Streamer to LabJack object that have matching
-        input and output registers
+        Make sure to add Updater and Streamer to LabJack object that have
+        matching input and output registers.
 
     Raises
     ------
     KeyError
-        dac_name dict keys doesn't match the input axis
+        dac_name dict keys doesn't match the input axis.
     KeyError
-        pos_init dict keys doesn't match the input axis
+        pos_init dict keys doesn't match the input axis.
+
+    Examples
+    --------
+    >>> galvos = GalvoDrivers(
+    ...    ["x", "z"],
+    ...    {"x": "DAC0", "z": "DAC1"},
+    ...    {"x", 0: "z": 0})
+    >>> galvos.set_origin(x=100)
+    >>> galvos.origin
+    {"x": 100, "z": 0}
+    >>> galvos.go_to(x=500, z=1000, 1000)
+
+    Move to (x, z) = (600, 1050)μm at 1000μm/s with the same speed for both
+    axis.
+
+    >>> galvos.rel_pos
+    {"x": 500, "z": 1000}
+    >>> galvos.reset_pos()
+    >>> galvos.pos
+    {"x": 100, "z": 50}
+    >>> galvos.rel_pos
+    {"x": 0, "z": 0}
+    >>> galvos.reset_origin()
+    >>> galvos.origin
+    {"x": 0, "z": 0}
+    >>> galvos.reset_pos()
+    >>> galvos.pos
+    {"x": 0, "z": 0}
     """
     def __init__(self, axis, dac_name: dict, pos_init: dict, daq=False):
         """Inits a GalvoDrivers object."""
