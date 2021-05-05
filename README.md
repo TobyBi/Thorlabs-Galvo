@@ -1,4 +1,4 @@
-# Thorlabs Galvo Systems
+# Thorlabs-Galvo
 
 Wrapper to control Thorlabs [Galvo Systems](https://www.thorlabs.de/newgrouppage9.cfm?objectgroup_id=6057) with a DAC. Currently, only LabJack [T-series DAQs](https://labjack.com/products/t7) are supported but feel free to add others.
 
