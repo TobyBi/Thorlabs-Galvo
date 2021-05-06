@@ -503,7 +503,11 @@ class GalvoDrivers:
         original_pos = self.pos
         new_abs_pos = {}
         for ax in self.axis:
-            new_abs_pos[ax] = self._galvos[ax].go_to(new_pos[ax], speed)[0]
+            try:
+                new_abs_pos[ax] = self._galvos[ax].go_to(new_pos[ax], speed)[0]
+            except KeyError:
+                # Axis is not provided
+                new_abs_pos[ax] = self._galvos[ax].go_to(original_pos[ax], speed)[0]
 
         move = MoveMultiDim(self.axis, original_pos, new_abs_pos, speed)
 
