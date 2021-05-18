@@ -95,18 +95,27 @@ class GalvoDriver:
 
     @property
     def pos(self) -> float:
-        """Return the absolute position of the Galvo mirror in μm."""
+        """Return the absolute position of the Galvo mirror in μm.
+        
+        With saturation compensation
+        """
         return self._pos
 
     @property
     def rel_pos(self) -> float:
-        """Return the relative position to the origin in μm."""
-        return self._rel_point.pos
+        """Return the relative position to the origin in μm.
+        
+        With saturation compensation.
+        """
+        return self._rel_point.pos_unsat
 
     @property
     def pos_history(self) -> list:
-        """Return the history of absolute positions in μm."""
-        return [pnt.pos for pnt in self._point_history]
+        """Return the history of absolute positions in μm.
+        
+        With saturation compensation.        
+        """
+        return [pnt.pos_unsat for pnt in self._point_history]
 
     def reset_pos(self):
         """Immediately reset position to origin."""
@@ -114,8 +123,11 @@ class GalvoDriver:
 
     @property
     def origin(self) -> float:
-        """Return the origin of galvo mirror in μm."""
-        return self._origin.pos
+        """Return the origin of galvo mirror in μm.
+
+        With saturation compensation.         
+        """
+        return self._origin.pos_unsat
 
     def set_origin(self, orig: float=None):
         """
@@ -159,6 +171,7 @@ class GalvoDriver:
         -------
         tuple
             1 - position in μm of the mirror, calculated from reading the DAC.
+                With saturation compensation.
             2 - time in s of movement given by the streaming statistics.
 
         Raises
@@ -213,57 +226,6 @@ class GalvoDriver:
 
         return actual_point.pos, actual_t
 
-        # if self.daq:
-            # try:
-            #     # second condition of move.t == 0 is used when pos_init and pos_final are the same
-            #     # but speed > 0 resulting in trying to stream when you can't
-            #     if speed == 0 or move.t == 0:
-            #         # Updating DAC#_BINARY with bit of closest position
-            #         actual_t = 0
-            #         actual_V = self.daq.update.update((move.bits[-1],))
-            #     else:
-            #         # Streaming bits between current position to new position
-                    # self.daq.stream_out.configure_stream()
-                    # self.daq.stream_out.load_data((move.bits,), "int")
-                    # actual_t = self.daq.stream_out.start_stream(move.t)
-                    # actual_V = self.daq.update.read()
-            # except KeyboardInterrupt:
-            #     # reads the position (transformed from the voltage) where the mirror
-            #     # is stopped
-            #     # Also, within Streamer.start_stream sleeping occurs that blocks/holds execution
-            #     # until the full stream has occurred, only then is the KeyboardInterrupt signal
-            #     # handled
-            #     # TODO: run laser and this on separate stream to be able to shutdown one immediately
-            #     # TODO: context handler for lase
-            #     # self.daq.stream_out.stop_stream()
-            #     try:
-            #         actual_V
-            #     except NameError:
-            #         actual_V = self.daq.update.read()
-
-            #     try:
-            #         actual_t
-            #     except NameError:
-            #         actual_t = move.t
-            #     # using the stopped voltage to set the galvo position, even though this is the same
-            #     # as new_pos as streaming is blocked until it finishes
-            #     self._voltage = actual_V[self.dac_name]
-            #     print("Stopping at {0} = {1}um!".format(self.axis, self.pos))
-            #     # need to raise KeyboardInterrupt so that calling program above the stack can
-            #     # also stop other processes
-            #     raise KeyboardInterrupt("Moving stopped by user!")
-            # else:
-            #     # directly set private _pos attribute because method converts pos float to Point obj
-            #     self._pos = new_pos
-            # finally:
-            #     actual_point = Point(self.axis, voltage=actual_V[self.dac_name])
-        # else:
-        #     self._pos = new_pos
-        #     actual_t = 0
-        #     actual_point = Point(self.axis, self.pos)
-
-        # return actual_point.pos, actual_t
-
     #=======================================================
     # PRIVATE METHODS
     #=======================================================
@@ -287,7 +249,7 @@ class GalvoDriver:
     @property
     def _pos(self):
         """Return absolute position in μm."""
-        return self._point.pos
+        return self._point.pos_unsat
 
     @_pos.setter
     def _pos(self, val: float):
@@ -554,59 +516,6 @@ class GalvoDrivers:
 
         return actual_pos, actual_t
 
-        # if self.daq:
-        #     try:
-        #         # this part is the same as a single galvo axis except it assumes that
-        #         # the Labjack updater and streamer have the same number of registers
-        #         # as the number of move bits
-        #         if speed == 0 or move.t == 0:
-        #             # Updater wants a tuple of values matching the number of write registers
-        #             move_bits = tuple([mb[-1] for mb in tuple(move.bits.values())])
-        #             actual_t = 0
-        #             actual_V = self.daq.update.update(move_bits)
-        #         else:
-        #             # movement bits for each axis
-        #             move_bits = tuple(move.bits.values())
-                    # self.daq.stream_out.configure_stream()
-                    # self.daq.stream_out.load_data(move_bits, "int")
-                    # actual_t = self.daq.stream_out.start_stream(move.t)
-        #             actual_V = self.daq.update.read()
-        #     except KeyboardInterrupt:
-        #         # self.daq.stream_out.stop_stream() KeyboardInterrupt in Streamer handles this
-        #         try:
-        #             actual_V
-        #         except NameError:
-        #             actual_V = self.daq.update.read()
-
-        #         try:
-        #             actual_t
-        #         except NameError:
-        #             actual_t = move.t
-
-        #         # setting the stored 1D galvos to the stopped positions
-        #         stopped_pos = []
-        #         for ax in self.axis:
-        #             self._galvos[ax].voltage = actual_V[self._galvos[ax].dac_name]
-        #             stopped_pos.append(str(self._galvos[ax].pos))
-        #         print("Stopping at ({0}) = ({1})um".format(", ".join(self.axis), ", ".join(stopped_pos)))
-        #         # need to raise KeyboardInterrupt so that calling program above the stack can
-        #         # also stop other processes
-        #         raise KeyboardInterrupt("Moving stopped by user!")
-        #     finally:
-        #         actual_pos = {}
-        #         for ax in self.axis:
-        #             actual_pos[ax] = Point(ax, voltage=actual_V[self._galvos[ax].dac_name]).pos
-
-        # else:
-        #     # no connected DAQs
-        #     actual_t = 0
-        #     actual_pos = {}
-        #     for ax in self.axis:
-        #         actual_pos[ax] = Point(ax, new_pos[ax]).pos
-
-        # return actual_pos, actual_t
-
-
 MAX_SPEED = 10e3
 
 class Move():
@@ -807,6 +716,16 @@ POSITION_TO_VOLTAGE = {
         "intercept": DAC_RANGE[1]/2
     }
 }
+
+# Both LabJack DACs suffer from saturation where they cannot output more than ~4.85V.
+# So setting V=5V will result in V=~4.85V.
+# The compensation offsets the voltage so the voltage is never at 5V.
+# It is accounted for by limiting the DAC, and then using pos_unsat for all the output readings
+SATURATION_COMP = {
+    "x": -0.2, # Volts
+    "z": 0
+}
+
 # The calibration is assuming that the origin can be set at exactly the centre
 # of the rod in the z direction. We cannot so this is a correction to set the
 # height
@@ -877,7 +796,7 @@ class Point():
             # converting position to voltage
             self._voltage = self.pos_to_volt(self._axis, self._pos)
         elif voltage != None:
-            self._voltage = self._voltage_limits(voltage)
+            self._voltage = self._voltage_limits(self._axis, voltage)
             # converting voltage to position
             self._pos = self.volt_to_pos(self._axis, self._voltage)
 
@@ -897,8 +816,15 @@ class Point():
 
     @property
     def pos(self) -> float:
-        """Return position of point in μm."""
+        """Return absolute position of point in μm."""
         return self._pos
+
+    @property
+    def pos_unsat(self) -> float:
+        """Return the position with saturation comp in μm."""
+        # Remove the saturation comp because we don't want to display it
+        comp = self.volt_to_pos(self._axis, self.voltage - SATURATION_COMP[self._axis])
+        return comp
 
     @property
     def voltage(self) -> float:
@@ -947,19 +873,19 @@ class Point():
         return new_volt
 
     @staticmethod
-    def _voltage_limits(volt: float) -> float:
+    def _voltage_limits(axis: str, volt: float) -> float:
         """Return voltages within DAC range limits."""
         if volt < min(DAC_RANGE):
             return min(DAC_RANGE)
-        elif volt > max(DAC_RANGE):
-            return max(DAC_RANGE)
+        elif volt > (max(DAC_RANGE) + SATURATION_COMP[axis]):
+            return max(DAC_RANGE) + SATURATION_COMP[axis]
         else:
             return volt
 
     def _position_limits(self, pos: float) -> float:
         """Return positions within allowed DAC voltage range."""
         set_voltage = self.pos_to_volt(self._axis, pos)
-        set_voltage = self._voltage_limits(set_voltage)
+        set_voltage = self._voltage_limits(self._axis, set_voltage)
 
         set_pos = self.volt_to_pos(self._axis, set_voltage)
         return set_pos
@@ -1028,44 +954,3 @@ class Point():
                     # replace coarsen amount pos by 1
                     coarsened = Point._replace_any_bit(val, k, 1)
         return coarsened
-
-if __name__ == '__main__':
-    driver = GalvoDriver('x', "DAC0", pos_init=0, daq=False)
-
-    for pos in [-1, 6, 2000, 12300, 1500, 900]:
-        driver.go_to(pos, 0)
-        print(driver.pos)
-        print(driver.pos_history)
-
-    driver.set_origin(900)
-    print(driver.rel_pos)
-
-    driver.go_to(100, 10)
-    print(driver.pos)
-
-    print("multi-drivers")
-
-    drivers = GalvoDrivers(
-        axis=("x", "z"),
-        dac_name={"x": "DAC0", "z": "DAC1"},
-        pos_init={"x": 0, "z": 0},
-        daq=False
-    )
-
-    drivers.go_to(x=100, z=300, speed=0)
-    print(drivers.pos)
-    print(drivers.pos_history)
-    print(drivers.rel_pos)
-    print(drivers.origin)
-
-    drivers.set_origin(x=300, z=1000)
-    print(drivers.pos)
-    print(drivers.origin)
-
-    drivers.go_to(x=1000, z=3000, speed=0)
-    print(drivers.pos)
-    print(drivers.origin)
-
-    drivers.reset_pos()
-    print(drivers.pos)
-    print(drivers.origin)
