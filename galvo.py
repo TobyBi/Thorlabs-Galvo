@@ -559,9 +559,9 @@ class Move():
     @property
     def t(self) -> float:
         """Return movement time in seconds, if speed=0μm/s then t=0s."""
-        try:
+        if self._speed != 0:
             _t = abs(self._point_init.pos - self._point_final.pos) / self._speed
-        except ZeroDivisionError:
+        else:
             _t = 0
         return _t
 
